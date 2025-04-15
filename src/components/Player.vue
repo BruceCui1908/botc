@@ -13,12 +13,19 @@
           :bgColor="bgColor" :style="directionObj" />
 
         <div class="label-container">
-          <el-icon @click="addReminder" class="add-button" :size="14">
+          <el-icon @click="addReminderToList" class="add-button" :size="14">
             <CirclePlus />
           </el-icon>
         </div>
       </div>
     </el-card>
+
+    <div class="reminder-list" :style="isRow ? rightReminderStyle : leftReminderStyle">
+      <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
+        :type="tag.isGood ? 'primary' : 'danger'">
+        {{ tag.text }}
+      </el-tag>
+    </div>
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
@@ -39,6 +46,7 @@ import { usePlayerStore } from '@/stores/player'
 
 import type { Character } from '@/types/script'
 import type { PlayerInfo } from '@/types/player'
+import type { Tag } from '@/types/reminder'
 
 import '@interactjs/auto-start'
 import '@interactjs/actions/drag'
@@ -56,12 +64,12 @@ const playerRef = ref(null)
 const characterSelectorRef = ref(null)
 const reminderSelectorRef = ref(null)
 
-
 const logo = ref('')
 const name = ref('')
 const team = ref('')
 const isRow = ref(true)
 const size = ref(60)
+const tags = ref<Array<Tag>>([])
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -178,14 +186,27 @@ const setSelectedCharacter = (character: Character) => {
   playerStore.addPlayer(playerInfo)
 }
 
-const setSelectedReminder = (reminder: Reminder) => {
+const setSelectedReminder = (reminder: Reminder, label: string) => {
+  let tag: Tag = {
+    isGood: reminder.isGood,
+    text: `${reminder.name}：${label}`
+  }
+
+  if (!tags.value?.includes(tag)) {
+    tags.value?.push(tag)
+  }
 }
 
+const removeTag = (tag: Tag) => {
+  tags.value.splice(tags.value.indexOf(tag), 1)
+}
+
+// toggle row and reverse
 const switchRow = () => {
   isRow.value = !isRow.value
 }
 
-const addReminder = () => {
+const addReminderToList = () => {
   if (!scriptStore.Meta || scriptStore.Characters.length == 0) {
     ElNotification({
       message: '请先选择剧本',
@@ -198,6 +219,18 @@ const addReminder = () => {
   reminderSelectorRef?.value?.toggleSelector(index)
 }
 
+const rightReminderStyle = computed(() => ({
+  zIndex: playerRef.value.style.zIndex,
+  top: '0%',
+  right: '0%',
+}))
+
+const leftReminderStyle = computed(() => ({
+  zIndex: playerRef.value.style.zIndex,
+  top: '0%',
+  left: '0%',
+}))
+
 </script>
 
 <style lang="scss" scoped>
@@ -206,6 +239,7 @@ const addReminder = () => {
   position: relative;
   touch-action: none;
   user-select: none;
+  border: 1px red solid;
 
   .card-header {
     font-weight: 800;
@@ -229,6 +263,14 @@ const addReminder = () => {
         right: 0%;
       }
     }
+  }
+
+  .reminder-list {
+    position: absolute;
+    background-color: transparent;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 

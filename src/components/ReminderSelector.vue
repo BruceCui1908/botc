@@ -3,28 +3,32 @@
         <el-scrollbar max-height="26rem" height="26rem">
             <el-divider content-position="left">镇民</el-divider>
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.TownsfolkReminders" :key="index">
-                <el-tag v-for="(item, index) in reminder.text" :key="index" type="primary" effect="dark" round>
+                <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+                    type="primary" effect="dark" round>
                     {{ reminder.name }}：{{ item }}
                 </el-tag>
             </el-row>
 
             <el-divider content-position="left">外来者</el-divider>
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.OutsiderReminders" :key="index">
-                <el-tag v-for="(item, index) in reminder.text" :key="index" type="primary" effect="dark" round>
+                <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+                    type="primary" effect="dark" round>
                     {{ reminder.name }}：{{ item }}
                 </el-tag>
             </el-row>
 
             <el-divider content-position="left">爪牙</el-divider>
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.MinionReminders" :key="index">
-                <el-tag v-for="(item, index) in reminder.text" :key="index" type="danger" effect="dark" round>
+                <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+                    type="danger" effect="dark" round>
                     {{ reminder.name }}：{{ item }}
                 </el-tag>
             </el-row>
 
             <el-divider content-position="left">恶魔</el-divider>
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.DemonReminders" :key="index">
-                <el-tag v-for="(item, index) in reminder.text" :key="index" type="danger" effect="dark" round>
+                <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+                    type="danger" effect="dark" round>
                     {{ reminder.name }}：{{ item }}
                 </el-tag>
             </el-row>
@@ -35,6 +39,7 @@
 <script lang="ts" setup>
 import { ref, computed } from 'vue'
 import { usePlayerStore } from '@/stores/player'
+import type { Reminder } from '@/types/reminder'
 
 const playerStore = usePlayerStore()
 
@@ -49,6 +54,10 @@ const emit = defineEmits(['trigger-select'])
 
 const toggleSelector = () => {
     showDialog.value = true
+}
+
+const selectReminder = (reminder: Reminder, label: string) => {
+    emit('trigger-select', reminder, label)
 }
 
 defineExpose({ toggleSelector })

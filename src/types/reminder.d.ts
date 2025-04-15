@@ -5,3 +5,8 @@ export interface Reminder {
     isGood: boolean
     team: string
 }
+
+export interface Tag {
+    isGood: boolean
+    text: string
+}
