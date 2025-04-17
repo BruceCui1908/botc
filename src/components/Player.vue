@@ -1,6 +1,6 @@
 <template>
-  <div class="player-wrapper" @click="touchPlayer" ref="playerRef">
-    <el-card>
+  <div class="player-wrapper" :style="playerWrapperStyleObj" @click="touchPlayer" ref="playerRef">
+    <el-card style="width:9rem">
       <template #header>
         <div class="card-header" :style="directionObj">
           <span>{{ cardHeader }}</span>
@@ -20,12 +20,15 @@
       </div>
     </el-card>
 
-    <div class="reminder-list" :style="isRow ? rightReminderStyle : leftReminderStyle">
-      <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
-        :type="tag.isGood ? 'primary' : 'danger'">
-        {{ tag.text }}
-      </el-tag>
-    </div>
+    <el-scrollbar :max-height="containerHeight">
+      <div class="reminder-list">
+        <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
+          :type="tag.isGood ? 'primary' : 'danger'">
+          {{ tag.text }}
+        </el-tag>
+      </div>
+    </el-scrollbar>
+
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
@@ -70,6 +73,7 @@ const team = ref('')
 const isRow = ref(true)
 const size = ref(60)
 const tags = ref<Array<Tag>>([])
+const containerHeight = ref('109px')
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -81,7 +85,16 @@ const directionObj = computed(() => ({
   flexDirection: isRow.value ? 'row' : 'row-reverse',
 }))
 
+const playerWrapperStyleObj = computed(() => ({
+  display: 'flex',
+  flexDirection: isRow.value ? 'row' : 'row-reverse',
+  alignItems: 'flex-start'
+}))
+
 onMounted(() => {
+  const height = playerRef.value.offsetHeight
+  console.log('Element height:', height)
+
   interact(playerRef.value).draggable({
     // enable inertial throwing
     inertia: true,
@@ -219,27 +232,14 @@ const addReminderToList = () => {
   reminderSelectorRef?.value?.toggleSelector(index)
 }
 
-const rightReminderStyle = computed(() => ({
-  zIndex: playerRef.value.style.zIndex,
-  top: '0%',
-  right: '0%',
-}))
-
-const leftReminderStyle = computed(() => ({
-  zIndex: playerRef.value.style.zIndex,
-  top: '0%',
-  left: '0%',
-}))
-
 </script>
 
 <style lang="scss" scoped>
 .player-wrapper {
-  width: 9rem;
+  display: inline-block;
   position: relative;
   touch-action: none;
   user-select: none;
-  border: 1px red solid;
 
   .card-header {
     font-weight: 800;
@@ -266,7 +266,6 @@ const leftReminderStyle = computed(() => ({
   }
 
   .reminder-list {
-    position: absolute;
     background-color: transparent;
     display: flex;
     align-items: flex-start;

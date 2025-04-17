@@ -2,6 +2,7 @@
     <el-scrollbar>
         <div class="town-container">
             <Player v-for="i in settingStore.playersCount" :index="i" :key="i" />
+
             <div class="action-list">
                 <v-speed-dial location="top center" transition="fade-transition">
                     <template v-slot:activator="{ props: activatorProps }">

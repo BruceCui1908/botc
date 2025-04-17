@@ -57,6 +57,7 @@ const toggleSelector = () => {
 }
 
 const selectReminder = (reminder: Reminder, label: string) => {
+    showDialog.value = false
     emit('trigger-select', reminder, label)
 }
 
