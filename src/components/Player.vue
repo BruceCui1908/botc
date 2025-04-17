@@ -27,7 +27,6 @@
         </el-tag>
       </div>
     </el-scrollbar>
-
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />

@@ -52,15 +52,13 @@
                     + New Tag
                 </el-button>
             </el-row>
-
-
-
         </el-scrollbar>
     </el-dialog>
 </template>
 
 <script lang="ts" setup>
 import { nextTick, ref, computed, watch } from 'vue'
+import type { InputInstance } from 'element-plus'
 import { usePlayerStore } from '@/stores/player'
 import { useSettingStore } from '@/stores/setting'
 import type { Reminder } from '@/types/reminder'
@@ -68,7 +66,7 @@ import type { Reminder } from '@/types/reminder'
 const playerStore = usePlayerStore()
 const settingStore = useSettingStore()
 const showDialog = ref<boolean>(false)
-const dynamicTags = ref([])
+const dynamicTags = ref<string[]>([])
 const inputValue = ref('')
 const inputVisible = ref(false)
 const InputRef = ref<InputInstance>()
@@ -84,6 +82,9 @@ const customTagRowStyleObj = computed(() => ({
     gap: '0.3rem'
 }))
 
+watch(() => settingStore.IsReseting, () => {
+    dynamicTags.value = []
+})
 
 const emit = defineEmits(['trigger-select', 'trigger-custom-select', 'trigger-status-select'])
 
@@ -116,15 +117,10 @@ const handleInputConfirm = () => {
     inputValue.value = ''
 }
 
-watch(() => settingStore.IsReseting, () => {
-    dynamicTags.value = []
-})
-
 const selectCustomReminder = (tag: string) => {
     showDialog.value = false
     emit('trigger-custom-select', tag)
 }
-
 
 defineExpose({ toggleSelector })
 </script>
