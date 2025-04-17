@@ -1,6 +1,6 @@
 <template>
   <div class="player-wrapper" :style="playerWrapperStyleObj" @click="touchPlayer" ref="playerRef">
-    <el-card style="width:9rem">
+    <el-card :style="cardWrapperStyle">
       <template #header>
         <div class="card-header" :style="directionObj">
           <span>{{ cardHeader }}</span>
@@ -10,17 +10,16 @@
 
       <div class="card-body" :style="directionObj">
         <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
-          :bgColor="bgColor" :style="directionObj" />
+          :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
 
         <div class="label-container">
-          <el-icon @click="addReminderToList" class="add-button" :size="14">
-            <CirclePlus />
-          </el-icon>
+          <el-button :icon="Plus" size="small" circle @click="addReminderToList" />
+          <el-button :icon="Sort" size="small" circle @click="toggleAlignment" />
         </div>
       </div>
     </el-card>
 
-    <el-scrollbar :max-height="containerHeight">
+    <el-scrollbar :max-height="initialWrapperHeight">
       <div class="reminder-list">
         <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
           :type="tag.isGood ? 'primary' : 'danger'">
@@ -32,13 +31,14 @@
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
-  <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder" />
+  <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
+    @trigger-custom-select="setCustomSelectedReminder" />
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
-import { Switch } from '@element-plus/icons-vue'
+import { Switch, Plus, Sort } from '@element-plus/icons-vue'
 import Token from './Token.vue'
 import CharacterSelector from './CharacterSelector.vue'
 import ReminderSelector from './ReminderSelector.vue'
@@ -71,16 +71,20 @@ const logo = ref('')
 const name = ref('')
 const team = ref('')
 const isRow = ref(true)
+const isUpsideDown = ref(false)
 const size = ref(60)
 const tags = ref<Array<Tag>>([])
-const containerHeight = ref('109px')
+const cardBodyWidth = ref('7rem')
+const initialWrapperHeight = ref('')
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
 const playerStore = usePlayerStore()
 
 const bgColor = ref<string>('rgb(242.5, 208.5, 157.5)')
+
 const cardHeader = computed(() => `${index}号：${name.value}`)
+
 const directionObj = computed(() => ({
   flexDirection: isRow.value ? 'row' : 'row-reverse',
 }))
@@ -91,9 +95,13 @@ const playerWrapperStyleObj = computed(() => ({
   alignItems: 'flex-start'
 }))
 
+const cardWrapperStyle = computed(() => ({
+  width: cardBodyWidth.value
+}))
+
 onMounted(() => {
   const height = playerRef.value.offsetHeight
-  console.log('Element height:', height)
+  initialWrapperHeight.value = `${height}px`
 
   interact(playerRef.value).draggable({
     // enable inertial throwing
@@ -199,6 +207,7 @@ const setSelectedCharacter = (character: Character) => {
   playerStore.addPlayer(playerInfo)
 }
 
+// set offical reminders
 const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     isGood: reminder.isGood,
@@ -208,6 +217,11 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
   if (!tags.value?.includes(tag)) {
     tags.value?.push(tag)
   }
+}
+
+// set custom reminders
+const setCustomSelectedReminder = (tag: string) => {
+  console.log('tag = ', tag)
 }
 
 const removeTag = (tag: Tag) => {
@@ -232,6 +246,10 @@ const addReminderToList = () => {
   reminderSelectorRef?.value?.toggleSelector(index)
 }
 
+const toggleAlignment = () => {
+  isUpsideDown.value = !isUpsideDown.value
+}
+
 </script>
 
 <style lang="scss" scoped>
@@ -246,6 +264,12 @@ const addReminderToList = () => {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .card-body {
@@ -253,15 +277,13 @@ const addReminderToList = () => {
     align-items: center;
 
     .label-container {
-      width: 100%;
+      border: 1px red solid;
       height: 60px;
-      position: relative;
-
-      .add-button {
-        position: absolute;
-        bottom: 0%;
-        right: 0%;
-      }
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-end;
+      flex-direction: column;
+      gap: 4px;
     }
   }
 

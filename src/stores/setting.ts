@@ -13,6 +13,7 @@ export const useSettingStore = defineStore('settingStore', {
     goodColor: '#409EFF',
     evilColor: '#D90606',
     isInTownMode: false,
+    isBeingReset: false
   }),
 
   getters: {
@@ -34,6 +35,10 @@ export const useSettingStore = defineStore('settingStore', {
     EvilColor(state): string {
       return state.evilColor
     },
+
+    IsReseting(state): boolean {
+      return state.isBeingReset
+    }
   },
 
   actions: {
@@ -88,6 +93,7 @@ export const useSettingStore = defineStore('settingStore', {
       this.demonCount = 0
       this.travellerCount = 0
       this.isLocked = false
+      this.isBeingReset = !this.isBeingReset
     },
 
     setTownMode(mode: boolean): void {
