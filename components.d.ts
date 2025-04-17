@@ -42,6 +42,7 @@ declare module 'vue' {
     Grimoire: typeof import('./src/components/Grimoire.vue')['default']
     JsonPreview: typeof import('./src/components/ScriptPreviewer.vue')['default']
     JsonUpload: typeof import('./src/components/JsonUpload.vue')['default']
+    NightOrder: typeof import('./src/components/NightOrder.vue')['default']
     Player: typeof import('./src/components/Player.vue')['default']
     PlayerSelect: typeof import('./src/components/PlayerSelect.vue')['default']
     PlayerSelector: typeof import('./src/components/PlayerSelector.vue')['default']

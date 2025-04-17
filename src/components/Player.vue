@@ -12,7 +12,7 @@
         <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
           :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
 
-        <div class="label-container">
+        <div class="label-container" :style="labelContainerStyleObj">
           <el-button :icon="Plus" size="small" circle @click="addReminderToList" />
           <el-button :icon="Sort" size="small" circle @click="toggleAlignment" />
         </div>
@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, toRaw } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 import { Switch, Plus, Sort } from '@element-plus/icons-vue'
 import Token from './Token.vue'
@@ -94,6 +94,12 @@ const playerWrapperStyleObj = computed(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
   alignItems: 'flex-start'
+}))
+
+const labelContainerStyleObj = computed(() => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: isRow.value ? 'flex-end' : 'flex-start'
 }))
 
 const cardWrapperStyle = computed(() => ({
@@ -307,6 +313,7 @@ const toggleAlignment = () => {
   .card-body {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
     .label-container {
       height: 60px;
@@ -326,7 +333,13 @@ const toggleAlignment = () => {
   }
 }
 
+
+
 :deep(.el-card) {
   --el-card-padding: 0.4rem;
+}
+
+:deep(.el-button) {
+  margin-left: 0px;
 }
 </style>
