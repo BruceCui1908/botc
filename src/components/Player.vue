@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, toRaw } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 import { Switch, Plus, Sort } from '@element-plus/icons-vue'
 import Token from './Token.vue'
@@ -77,6 +77,7 @@ const tags = ref<Array<Tag>>([])
 const cardBodyWidth = ref('7rem')
 const initialWrapperHeight = ref('')
 const isAlive = ref(true)
+const isZombie = ref(false)
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -93,8 +94,7 @@ const directionObj = computed(() => ({
 const playerWrapperStyleObj = computed(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
-  alignItems: 'flex-start',
-  backgroundColor: isAlive ? 'white' : 'grey'
+  alignItems: 'flex-start'
 }))
 
 const cardWrapperStyle = computed(() => ({
@@ -200,7 +200,7 @@ const setSelectedCharacter = (character: Character) => {
     character: character,
     firstNightOrder: character.firstNight,
     otherNightOrder: character.otherNight,
-    isAlive: isAlive,
+    isAlive: isAlive.value,
     isZombie: false,
     team: character.team,
     isGood: character.isGood!,
@@ -246,6 +246,14 @@ const setPlayerStatus = (status: string) => {
   if (status === '活尸') {
     isZombie.value = true
     isAlive.value = false
+  }
+
+  if (isAlive.value) {
+    bgColor.value = 'rgb(242.5, 208.5, 157.5)'
+  } else if (isZombie.value) {
+    bgColor.value = '#A8ABB2'
+  } else {
+    bgColor.value = '#606266'
   }
 }
 
@@ -302,7 +310,6 @@ const toggleAlignment = () => {
     align-items: center;
 
     .label-container {
-      border: 1px red solid;
       height: 60px;
       display: flex;
       justify-content: flex-end;
