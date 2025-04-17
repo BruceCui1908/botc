@@ -7,9 +7,9 @@ export interface PlayerInfo {
     firstNightOrder?: number
     otherNightOrder?: number
     isAlive: boolean
+    isZombie: boolean
     team: string
     isGood: boolean
-    note: string
 }
 
 export interface Players {

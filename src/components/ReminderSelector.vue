@@ -33,6 +33,12 @@
                 </el-tag>
             </el-row>
 
+            <el-divider content-position="left">状态</el-divider>
+            <el-row :style="customTagRowStyleObj">
+                <el-tag v-for="(item, index) in statusList" @click="selectStatus(item)" :key="index">
+                    {{ item }}</el-tag>
+            </el-row>
+
             <el-divider content-position="left">自定义标签</el-divider>
 
             <el-row :style="customTagRowStyleObj">
@@ -46,6 +52,9 @@
                     + New Tag
                 </el-button>
             </el-row>
+
+
+
         </el-scrollbar>
     </el-dialog>
 </template>
@@ -63,6 +72,7 @@ const dynamicTags = ref([])
 const inputValue = ref('')
 const inputVisible = ref(false)
 const InputRef = ref<InputInstance>()
+const statusList = ref(['存活', '死亡', '活尸'])
 
 const rowStyleObj = computed(() => ({
     padding: '0.2rem 0',
@@ -75,7 +85,7 @@ const customTagRowStyleObj = computed(() => ({
 }))
 
 
-const emit = defineEmits(['trigger-select', 'trigger-custom-select'])
+const emit = defineEmits(['trigger-select', 'trigger-custom-select', 'trigger-status-select'])
 
 const toggleSelector = () => {
     showDialog.value = true
@@ -84,6 +94,11 @@ const toggleSelector = () => {
 const selectReminder = (reminder: Reminder, label: string) => {
     showDialog.value = false
     emit('trigger-select', reminder, label)
+}
+
+const selectStatus = (status: string) => {
+    showDialog.value = false
+    emit('trigger-status-select', status)
 }
 
 const showInput = () => {

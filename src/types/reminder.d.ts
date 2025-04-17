@@ -7,6 +7,6 @@ export interface Reminder {
 }
 
 export interface Tag {
-    isGood: boolean
+    color: string
     text: string
 }

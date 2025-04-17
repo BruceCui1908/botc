@@ -22,7 +22,7 @@
     <el-scrollbar :max-height="initialWrapperHeight">
       <div class="reminder-list">
         <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
-          :type="tag.isGood ? 'primary' : 'danger'">
+          :type="tag.color">
           {{ tag.text }}
         </el-tag>
       </div>
@@ -32,7 +32,7 @@
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
   <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
-    @trigger-custom-select="setCustomSelectedReminder" />
+    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus" />
 </template>
 
 <script setup lang="ts">
@@ -76,6 +76,7 @@ const size = ref(60)
 const tags = ref<Array<Tag>>([])
 const cardBodyWidth = ref('7rem')
 const initialWrapperHeight = ref('')
+const isAlive = ref(true)
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -92,7 +93,8 @@ const directionObj = computed(() => ({
 const playerWrapperStyleObj = computed(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
-  alignItems: 'flex-start'
+  alignItems: 'flex-start',
+  backgroundColor: isAlive ? 'white' : 'grey'
 }))
 
 const cardWrapperStyle = computed(() => ({
@@ -198,10 +200,10 @@ const setSelectedCharacter = (character: Character) => {
     character: character,
     firstNightOrder: character.firstNight,
     otherNightOrder: character.otherNight,
-    isAlive: true,
+    isAlive: isAlive,
+    isZombie: false,
     team: character.team,
     isGood: character.isGood!,
-    note: ''
   }
 
   playerStore.addPlayer(playerInfo)
@@ -210,7 +212,7 @@ const setSelectedCharacter = (character: Character) => {
 // set offical reminders
 const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
-    isGood: reminder.isGood,
+    color: reminder.isGood ? 'primary' : 'danger',
     text: `${reminder.name}：${label}`
   }
 
@@ -220,8 +222,31 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
 }
 
 // set custom reminders
-const setCustomSelectedReminder = (tag: string) => {
-  console.log('tag = ', tag)
+const setCustomSelectedReminder = (label: string) => {
+  let tag: Tag = {
+    color: 'success',
+    text: label
+  }
+
+  if (!tags.value?.includes(tag)) {
+    tags.value?.push(tag)
+  }
+}
+
+// set status
+const setPlayerStatus = (status: string) => {
+  if (status === '存活') {
+    isAlive.value = true
+    isZombie.value = false
+  } else {
+    isAlive.value = false
+    isZombie.value = false
+  }
+
+  if (status === '活尸') {
+    isZombie.value = true
+    isAlive.value = false
+  }
 }
 
 const removeTag = (tag: Tag) => {
