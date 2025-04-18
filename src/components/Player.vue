@@ -19,14 +19,15 @@
       </div>
     </el-card>
 
-    <el-scrollbar :max-height="initialWrapperHeight">
-      <div class="reminder-list">
+
+    <div class="reminder-list" :style="reminderListStyleObj">
+      <el-scrollbar :max-height="initialWrapperHeight">
         <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
           :type="tag.color">
           {{ tag.text }}
         </el-tag>
-      </div>
-    </el-scrollbar>
+      </el-scrollbar>
+    </div>
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
@@ -93,7 +94,8 @@ const directionObj = computed(() => ({
 const playerWrapperStyleObj = computed(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
-  alignItems: 'flex-start'
+  alignItems: 'flex-start',
+  position: 'relative'
 }))
 
 const labelContainerStyleObj = computed(() => ({
@@ -101,6 +103,25 @@ const labelContainerStyleObj = computed(() => ({
   justifyContent: 'flex-end',
   alignItems: isRow.value ? 'flex-end' : 'flex-start'
 }))
+
+const reminderListStyleObj = computed(() => {
+  const style: Record<string, string> = {
+    display: 'flex',
+    alignItems: isRow.value ? 'flex-start' : 'flex-end',
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    flexDirection: 'column',
+    transform: `translate(${isRow.value ? '100%' : '-100%'}, 0)`
+  }
+
+  if (isRow.value) {
+    style.right = '0%'
+  } else {
+    style.left = '0%'
+  }
+
+  return style
+})
 
 const cardWrapperStyle = computed(() => ({
   width: cardBodyWidth.value
@@ -324,16 +345,7 @@ const toggleAlignment = () => {
       gap: 4px;
     }
   }
-
-  .reminder-list {
-    background-color: transparent;
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
-  }
 }
-
-
 
 :deep(.el-card) {
   --el-card-padding: 0.4rem;

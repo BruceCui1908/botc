@@ -90,9 +90,8 @@ const textStyleObj = computed(() => ({
     align-content: flex-start;
     justify-items: center;
     gap: 0.8rem;
-    width: 120%;
+    width: 100%;
     height: 80rem;
-    border: 1px red solid;
     position: relative;
 
     .action-list {
