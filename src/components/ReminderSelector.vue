@@ -5,7 +5,7 @@
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.TownsfolkReminders" :key="index">
                 <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
                     type="primary" effect="dark" round>
-                    {{ reminder.name }}：{{ item }}
+                    {{ reminder.name }}({{ item }})
                 </el-tag>
             </el-row>
 
@@ -13,7 +13,7 @@
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.OutsiderReminders" :key="index">
                 <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
                     type="primary" effect="dark" round>
-                    {{ reminder.name }}：{{ item }}
+                    {{ reminder.name }}({{ item }})
                 </el-tag>
             </el-row>
 
@@ -21,7 +21,7 @@
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.MinionReminders" :key="index">
                 <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
                     type="danger" effect="dark" round>
-                    {{ reminder.name }}：{{ item }}
+                    {{ reminder.name }}({{ item }})
                 </el-tag>
             </el-row>
 
@@ -29,7 +29,7 @@
             <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.DemonReminders" :key="index">
                 <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
                     type="danger" effect="dark" round>
-                    {{ reminder.name }}：{{ item }}
+                    {{ reminder.name }}({{ item }})
                 </el-tag>
             </el-row>
 

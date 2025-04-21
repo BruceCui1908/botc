@@ -72,7 +72,7 @@ const name = ref('')
 const team = ref('')
 const isRow = ref(true)
 const isUpsideDown = ref(false)
-const size = ref(60)
+const size = ref(50)
 const tags = ref<Array<Tag>>([])
 const cardBodyWidth = ref('7rem')
 const initialWrapperHeight = ref('')
@@ -239,7 +239,7 @@ const setSelectedCharacter = (character: Character) => {
 const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     color: reminder.isGood ? 'primary' : 'danger',
-    text: `${reminder.name}：${label}`
+    text: `${reminder.name}(${label})`
   }
 
   if (!tags.value?.includes(tag)) {
@@ -348,7 +348,7 @@ const toggleAlignment = () => {
 }
 
 :deep(.el-card) {
-  --el-card-padding: 0.4rem;
+  --el-card-padding: 0.2rem;
 }
 
 :deep(.el-button) {

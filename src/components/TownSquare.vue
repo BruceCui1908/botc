@@ -91,15 +91,15 @@ const textStyleObj = computed(() => ({
     justify-items: center;
     gap: 0.8rem;
     width: 100%;
-    height: 80rem;
+    height: 60rem;
     position: relative;
 
     .action-list {
         position: fixed;
-        right: 0%;
-        bottom: 10%;
+        right: 50%;
+        bottom: 25%;
         z-index: 9999;
-        transform: translate(-30%, 0);
+        transform: translate(50%, 50%);
     }
 }
 </style>
