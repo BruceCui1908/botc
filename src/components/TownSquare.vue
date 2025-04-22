@@ -1,6 +1,8 @@
 <template>
     <el-scrollbar>
+        <NightOrder v-show="showNightOrder" />
         <div class="town-container">
+
             <Player v-for="i in settingStore.playersCount" :index="i" :key="i" />
 
             <div class="action-list">
@@ -9,6 +11,12 @@
                         <v-fab v-bind="activatorProps" size="large" density="comfortable" icon="mdi-cog"
                             color="primary"></v-fab>
                     </template>
+
+                    <div key="4" style="position: relative">
+                        <span class="text" :style="textStyleObj">行动顺序</span>
+                        <v-btn icon="mdi-order-numeric-ascending" @click="toggleNightOrder"></v-btn>
+                    </div>
+
 
                     <div key="3" style="position: relative">
                         <span class="text" :style="textStyleObj">时间线</span>
@@ -41,6 +49,7 @@
 import { ref, computed } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
+import NightOrder from './NightOrder.vue'
 import { useSettingStore } from '@/stores/setting'
 import { useProgressStore } from '@/stores/progress'
 import { useScriptStore } from '@/stores/script'
@@ -50,6 +59,7 @@ const progressStore = useProgressStore()
 const scriptStore = useScriptStore()
 
 const showTimeline = ref<boolean>(false)
+const showNightOrder = ref<boolean>(true)
 
 const enterTown = () => {
     settingStore.setTownMode(true)
@@ -70,6 +80,10 @@ const startGame = () => {
 
 const toggleTimeline = () => {
     showTimeline.value = !showTimeline.value
+}
+
+const toggleNightOrder = () => {
+    showNightOrder.value = !showNightOrder.value
 }
 
 const textStyleObj = computed(() => ({

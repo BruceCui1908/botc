@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
 
@@ -25,7 +25,7 @@ const firstNightOrders = computed(() =>
         .sort((a, b) => a.character.firstNight! - b.character.firstNight!)
         .map((player) => ({
             label: `${player.index}: ${player.character.name}`,
-            disabled: player.isAlive
+            disabled: !player.isAlive
         }))
 )
 
@@ -39,26 +39,33 @@ const otherNightOrders = computed(() =>
         }))
 )
 
-const isInFirstNight = computed(() => {
-    let length = progressStore.timeline.length
-    if (length === 0) {
-        return false
-    }
+const isInFirstNight = ref<boolean>(true)
+const isInOtherNight = ref<boolean>(false)
 
-    let currentTimeline = progressStore.timeline[length - 1]
-    return !currentTimeline.isDay && length === 1
-})
+watch(
+    () => progressStore.timeline.length,
+    () => {
+        let length = progressStore.timeline.length
+        if (length === 0) {
+            isInFirstNight.value = true
+            isInOtherNight.value = false
+            return
+        }
 
-const isInOtherNight = computed(() => {
-    let length = progressStore.timeline.length
-    if (length === 0) {
-        return false
-    }
+        let currentTimeline = progressStore.timeline[length - 1]
+        let isFirstNight = !currentTimeline.isDay && length === 1
+        isInFirstNight.value = isFirstNight
 
-    let currentTimeline = progressStore.timeline[length - 1]
-    return !currentTimeline.isDay && length !== 1
-})
+        let isOtherNight = !currentTimeline.isDay && length > 1
+        isInOtherNight.value = isOtherNight
+    },
+)
 
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.night-order-container {
+    width: 100%;
+    border: 1px red solid;
+}
+</style>
