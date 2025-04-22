@@ -4,7 +4,7 @@
       <template #header>
         <div class="card-header" :style="directionObj">
           <span>{{ cardHeader }}</span>
-          <el-button :icon="Switch" size="small" circle @click="switchRow" />
+
         </div>
       </template>
 
@@ -12,20 +12,22 @@
         <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
           :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
 
-        <div class="label-container">
+        <el-scrollbar max-height="60px">
+          <div class="label-container">
+            <el-avatar v-for="(item, index) in tags" :key="index" :src="item.image" size="small" :style="{
+              background: 'transparent',
+              border: '1px grey solid'
+            }" v-tippy="{
+              content: item.text,
+              arrow: true,
+            }" @dblclick="removeTag(item)" />
+            <!-- hide this button -->
+            <!-- <el-button :icon="Sort" size="small" circle @click="toggleAlignment" /> -->
+          </div>
+        </el-scrollbar>
 
-          <el-avatar v-for="(item, index) in tags" :key="index" :src="item.image" size="small" :style="{
-            background: 'transparent',
-            border: '1px grey solid'
-          }" v-tippy="{
-            content: item.text,
-            arrow: true,
-          }" />
-
-          <!-- hide this button -->
-          <!-- <el-button :icon="Sort" size="small" circle @click="toggleAlignment" /> -->
-        </div>
       </div>
+      <el-button :style="switchButtonStyleObj" :icon="Switch" size="small" circle @click="switchRow" />
       <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
     </el-card>
 
@@ -85,7 +87,7 @@ const isRow = ref(true)
 const isUpsideDown = ref(false)
 const size = ref(50)
 const tags = ref<Array<Tag>>([])
-const cardBodyWidth = ref('7rem')
+const cardBodyWidth = ref('7.4rem')
 const initialWrapperHeight = ref('')
 const isAlive = ref(true)
 const isZombie = ref(false)
@@ -138,6 +140,23 @@ const plusButtonStyleObj = computed(() => {
   const style: Record<string, string> = {
     position: 'absolute',
     bottom: '0%'
+  }
+
+  if (isRow.value) {
+    style.right = '0%'
+    style.transform = 'translate(50%, 50%)'
+  } else {
+    style.left = '0%'
+    style.transform = 'translate(-50%, 50%)'
+  }
+
+  return style
+})
+
+const switchButtonStyleObj = computed(() => {
+  const style: Record<string, string> = {
+    position: 'absolute',
+    top: '0%'
   }
 
   if (isRow.value) {
@@ -267,7 +286,7 @@ const setSelectedCharacter = (character: Character) => {
 const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     color: reminder.isGood ? 'primary' : 'danger',
-    text: `${label})`,
+    text: `${label}`,
     image: reminder.logo
   }
 
@@ -377,8 +396,10 @@ const toggleAlignment = () => {
     .label-container {
       height: 60px;
       width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.1rem;
       gap: 4px;
-      border: 1px red solid;
     }
   }
 }

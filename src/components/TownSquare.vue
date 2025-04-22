@@ -93,6 +93,7 @@ const textStyleObj = computed(() => ({
     width: 100%;
     height: 60rem;
     position: relative;
+    overflow: visible;
 
     .action-list {
         position: fixed;
