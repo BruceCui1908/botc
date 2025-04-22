@@ -5,6 +5,7 @@ import type { Reminder } from '@/types/reminder'
 export const usePlayerStore = defineStore('playerStore', {
     state: (): Players => ({
         players: [],
+        isUpdated: false,
         reminders: []
     }),
 
@@ -28,6 +29,7 @@ export const usePlayerStore = defineStore('playerStore', {
 
     actions: {
         addPlayer(player: PlayerInfo): void {
+            this.isUpdated = !this.isUpdated
             const index = this.players.findIndex(item => item.index === player.index)
 
             if (index !== -1) {

@@ -14,5 +14,6 @@ export interface PlayerInfo {
 
 export interface Players {
     players: PlayerInfo[]
+    isUpdated: boolean
     reminders: Reminder[]
 }
