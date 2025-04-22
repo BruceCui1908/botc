@@ -8,5 +8,6 @@ export interface Reminder {
 
 export interface Tag {
     color: string
+    image: string
     text: string
 }

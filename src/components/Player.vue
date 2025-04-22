@@ -12,27 +12,38 @@
         <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
           :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
 
-        <div class="label-container" :style="labelContainerStyleObj">
-          <el-button :icon="Plus" size="small" circle @click="addReminderToList" />
-          <el-button :icon="Sort" size="small" circle @click="toggleAlignment" />
+        <div class="label-container">
+
+          <el-avatar v-for="(item, index) in tags" :key="index" :src="item.image" size="small" :style="{
+            background: 'transparent',
+            border: '1px grey solid'
+          }" v-tippy="{
+            content: item.text,
+            arrow: true,
+          }" />
+
+          <!-- hide this button -->
+          <!-- <el-button :icon="Sort" size="small" circle @click="toggleAlignment" /> -->
         </div>
       </div>
+      <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
     </el-card>
 
-
-    <div class="reminder-list" :style="reminderListStyleObj">
+    <!-- hide the reminder list -->
+    <!-- <div class="reminder-list" :style="reminderListStyleObj">
       <el-scrollbar :max-height="initialWrapperHeight">
         <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
           :type="tag.color">
           {{ tag.text }}
         </el-tag>
       </el-scrollbar>
-    </div>
+    </div> -->
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
   <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
-    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus" />
+    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus"
+    @trigger-alignment-select="setPlayerAlignment" />
 </template>
 
 <script setup lang="ts">
@@ -98,11 +109,11 @@ const playerWrapperStyleObj = computed(() => ({
   position: 'relative'
 }))
 
-const labelContainerStyleObj = computed(() => ({
-  display: 'flex',
-  justifyContent: 'flex-end',
-  alignItems: isRow.value ? 'flex-end' : 'flex-start'
-}))
+// const labelContainerStyleObj = computed(() => ({
+//   display: 'flex',
+//   justifyContent: 'flex-end',
+//   alignItems: isRow.value ? 'flex-end' : 'flex-start'
+// }))
 
 const reminderListStyleObj = computed(() => {
   const style: Record<string, string> = {
@@ -118,6 +129,23 @@ const reminderListStyleObj = computed(() => {
     style.right = '0%'
   } else {
     style.left = '0%'
+  }
+
+  return style
+})
+
+const plusButtonStyleObj = computed(() => {
+  const style: Record<string, string> = {
+    position: 'absolute',
+    bottom: '0%'
+  }
+
+  if (isRow.value) {
+    style.right = '0%'
+    style.transform = 'translate(50%, 50%)'
+  } else {
+    style.left = '0%'
+    style.transform = 'translate(-50%, 50%)'
   }
 
   return style
@@ -235,11 +263,12 @@ const setSelectedCharacter = (character: Character) => {
   playerStore.addPlayer(playerInfo)
 }
 
-// set offical reminders
+// set offical reminders old list version
 const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     color: reminder.isGood ? 'primary' : 'danger',
-    text: `${reminder.name}(${label})`
+    text: `${label})`,
+    image: reminder.logo
   }
 
   if (!tags.value?.includes(tag)) {
@@ -280,6 +309,15 @@ const setPlayerStatus = (status: string) => {
     bgColor.value = '#A8ABB2'
   } else {
     bgColor.value = '#606266'
+  }
+}
+
+// set alignment
+const setPlayerAlignment = (alignment: string) => {
+  if (alignment === '善良') {
+    isUpsideDown.value = false
+  } else if (alignment === '邪恶') {
+    isUpsideDown.value = true
   }
 }
 
@@ -338,11 +376,9 @@ const toggleAlignment = () => {
 
     .label-container {
       height: 60px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-end;
-      flex-direction: column;
+      width: 100%;
       gap: 4px;
+      border: 1px red solid;
     }
   }
 }

@@ -33,6 +33,12 @@
                 </el-tag>
             </el-row>
 
+            <el-divider content-position="left">阵营</el-divider>
+            <el-row :style="customTagRowStyleObj">
+                <el-tag v-for="(item, index) in alignmentList" @click="selectAlignment(item)" :key="index">
+                    {{ item }}</el-tag>
+            </el-row>
+
             <el-divider content-position="left">状态</el-divider>
             <el-row :style="customTagRowStyleObj">
                 <el-tag v-for="(item, index) in statusList" @click="selectStatus(item)" :key="index">
@@ -40,7 +46,6 @@
             </el-row>
 
             <el-divider content-position="left">自定义标签</el-divider>
-
             <el-row :style="customTagRowStyleObj">
                 <el-tag v-for="tag in dynamicTags" :key="tag" closable :disable-transitions="false"
                     @click="selectCustomReminder(tag)" @close="handleClose(tag)" class="custom-tag">
@@ -70,6 +75,7 @@ const dynamicTags = ref<string[]>([])
 const inputValue = ref('')
 const inputVisible = ref(false)
 const InputRef = ref<InputInstance>()
+const alignmentList = ref(['善良', '邪恶'])
 const statusList = ref(['存活', '死亡', '活尸'])
 
 const rowStyleObj = computed(() => ({
@@ -86,7 +92,8 @@ watch(() => settingStore.IsReseting, () => {
     dynamicTags.value = []
 })
 
-const emit = defineEmits(['trigger-select', 'trigger-custom-select', 'trigger-status-select'])
+const emit = defineEmits(['trigger-select', 'trigger-custom-select',
+    'trigger-status-select', 'trigger-alignment-select'])
 
 const toggleSelector = () => {
     showDialog.value = true
@@ -100,6 +107,11 @@ const selectReminder = (reminder: Reminder, label: string) => {
 const selectStatus = (status: string) => {
     showDialog.value = false
     emit('trigger-status-select', status)
+}
+
+const selectAlignment = (alignment: string) => {
+    showDialog.value = false
+    emit('trigger-alignment-select', alignment)
 }
 
 const showInput = () => {
