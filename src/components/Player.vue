@@ -91,6 +91,7 @@ const cardBodyWidth = ref('7.4rem')
 const initialWrapperHeight = ref('')
 const isAlive = ref(true)
 const isZombie = ref(false)
+const isGood = ref(false)
 const isCurrentPlayerInOrder = ref(false)
 
 const settingStore = useSettingStore()
@@ -171,11 +172,22 @@ const switchButtonStyleObj = computed(() => {
   return style
 })
 
-const cardWrapperStyle = computed(() => ({
-  width: cardBodyWidth.value,
-  backgroundColor: isCurrentPlayerInOrder.value ? "#03A9F4" : "white",
-  color: isCurrentPlayerInOrder.value ? "white" : "black",
-}))
+const cardWrapperStyle = computed(() => {
+  const style: Record<string, string> = {
+    width: cardBodyWidth.value,
+    color: isCurrentPlayerInOrder.value ? "white" : "black",
+  }
+
+  console.log('isCurrentPlayerInOrder.value is ', isCurrentPlayerInOrder.value)
+
+  if (isCurrentPlayerInOrder.value) {
+    style.backgroundColor = isGood.value ? 'rgb(24, 103, 192)' : '#C62828'
+  } else {
+    style.backgroundColor = "white"
+  }
+
+  return style
+})
 
 onMounted(() => {
   const height = playerRef.value.offsetHeight
@@ -270,6 +282,7 @@ const setSelectedCharacter = (character: Character) => {
   logo.value = character.image
   name.value = character.name
   team.value = character.team
+  isGood.value = character.isGood!
 
   let playerInfo: PlayerInfo = {
     index: index,

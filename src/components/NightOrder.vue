@@ -16,7 +16,6 @@ import { ref, watch } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
 import type { Order } from '@/types/order'
-import { Order } from '../types/order';
 
 const playerStore = usePlayerStore()
 const progressStore = useProgressStore()
@@ -58,7 +57,7 @@ const triggerFilterNightOrders = () => {
             }
 
             if (player.isAlive) {
-                order.color = player.isGood ? 'primary' : 'danger'
+                order.color = player.isGood ? 'primary' : '#C62828'
             } else {
                 order.color = 'grey'
             }
@@ -108,7 +107,6 @@ const setNightOrder = (order: Order) => {
 <style lang="scss" scoped>
 .night-order-container {
     width: 100%;
-    border: 1px red solid;
 }
 
 ::v-deep(.v-timeline-item) {
