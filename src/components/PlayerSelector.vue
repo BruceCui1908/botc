@@ -34,12 +34,15 @@ import { ref, watch } from 'vue'
 import { useSettingStore } from '@/stores/setting'
 import { useScriptStore } from '@/stores/script'
 import { usePlayerStore } from '@/stores/player'
+import { useProgressStore } from '@/stores/progress'
+
 import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
 const playerStore = usePlayerStore()
+const progressStore = useProgressStore()
 
 const num = ref<number>(5)
 const tCount = ref<number>(0)
@@ -73,9 +76,10 @@ const lock = (isLocked: boolean) => {
 }
 
 const refresh = () => {
-  settingStore.resetTown()
+  settingStore.reset()
   scriptStore.setGameEnded()
   playerStore.reset()
+  progressStore.reset()
 
   dialogVisible.value = false
   isLocked.value = false

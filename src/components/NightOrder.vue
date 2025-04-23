@@ -76,7 +76,7 @@ const triggerFilterNightOrders = () => {
             }
 
             if (player.isAlive) {
-                order.color = player.isGood ? 'primary' : 'danger'
+                order.color = player.isGood ? 'primary' : '#C62828'
             } else {
                 order.color = 'grey'
             }

@@ -79,6 +79,7 @@ export const usePlayerStore = defineStore('playerStore', {
             this.isUpdated = !this.isUpdated
             this.players = []
             this.reminders = []
+            this.nightOrderIndex = -1
         },
 
         setNightOrderIndex(index: number) {

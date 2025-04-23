@@ -142,8 +142,6 @@ const cardWrapperStyle = computed(() => {
     color: isCurrentPlayerInOrder.value ? "white" : "black",
   }
 
-  console.log('isCurrentPlayerInOrder.value is ', isCurrentPlayerInOrder.value)
-
   if (isCurrentPlayerInOrder.value) {
     style.backgroundColor = isGood.value ? 'rgb(24, 103, 192)' : '#C62828'
   } else {

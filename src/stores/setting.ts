@@ -85,7 +85,7 @@ export const useSettingStore = defineStore('settingStore', {
       this.isLocked = isLocked
     },
 
-    resetTown(): void {
+    reset(): void {
       this.playersCount = 0
       this.townsfolkCount = 0
       this.outsiderCount = 0

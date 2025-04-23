@@ -126,7 +126,7 @@ export const useScriptStore = defineStore('scriptStore', {
       this.otherNightOrders = otherNightCharacters
     },
 
-    resetScript() {
+    reset() {
       this.scripts = []
       this.meta = null
       this.characters = []
