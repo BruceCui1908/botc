@@ -329,6 +329,8 @@ const setPlayerStatus = (status: string) => {
   } else {
     bgColor.value = '#606266'
   }
+
+  playerStore.updatePlayerStatus(index ?? -1, isAlive.value, isZombie.value)
 }
 
 // set alignment

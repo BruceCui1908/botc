@@ -65,7 +65,17 @@ export const usePlayerStore = defineStore('playerStore', {
             this.players = this.players.sort((a, b) => a.index - b.index)
         },
 
+        updatePlayerStatus(index: number, isAlive: boolean, isZombie: boolean): void {
+            const i = this.players.findIndex(item => item.index === index)
+            if (i !== -1) {
+                this.players[i].isAlive = isAlive
+                this.players[i].isZombie = isZombie
+                this.isUpdated = !this.isUpdated
+            }
+        },
+
         reset(): void {
+            this.isUpdated = !this.isUpdated
             this.players = []
             this.reminders = []
         }

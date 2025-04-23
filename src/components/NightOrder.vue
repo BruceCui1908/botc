@@ -1,8 +1,11 @@
 <template>
     <div class="night-order-container">
         <v-timeline align="center" side="start" direction="horizontal">
-            <v-timeline-item v-for="(item, index) in nightOrders" :key="index" size="small" dot-color="primary">
-                <div>{{ item.label }}</div>
+            <v-timeline-item v-for="(item, index) in nightOrders" :key="index" size="small"
+                class="timeline-item-wrapper font-weight-bold" :dot-color="item.color">
+                <template v-slot:default>
+                    <div v-text="item.label"></div>
+                </template>
             </v-timeline-item>
         </v-timeline>
     </div>
@@ -24,7 +27,8 @@ watch(() => playerStore.isUpdated, () => {
         .sort((a, b) => a.character.firstNight! - b.character.firstNight!)
         .map((player) => ({
             label: `${player.index}号: ${player.character.name}`,
-            disabled: !player.isAlive
+            disabled: !player.isAlive,
+            color: player.isAlive ? 'primary' : 'grey'
         }))
 })
 
@@ -35,7 +39,8 @@ watch(() => playerStore.isUpdated, () => {
         .sort((a, b) => a.character.otherNight! - b.character.otherNight!)
         .map((player) => ({
             label: `${player.index}号: ${player.character.name}`,
-            disabled: player.isAlive
+            disabled: !player.isAlive,
+            color: player.isAlive ? 'primary' : 'grey'
         }))
 })
 
@@ -61,11 +66,12 @@ watch(
     },
 )
 
-const nightOrders = computed(() => {
+const nightOrders = ref<Order[]>([])
+watch(() => [playerStore.isUpdated, isInFirstNight, isInOtherNight], () => {
     if (isInFirstNight.value) {
-        return firstNightOrders.value
+        nightOrders.value = firstNightOrders.value
     } else {
-        return otherNightOrders.value
+        nightOrders.value = otherNightOrders.value
     }
 })
 
@@ -75,5 +81,11 @@ const nightOrders = computed(() => {
 .night-order-container {
     width: 100%;
     border: 1px red solid;
+}
+
+::v-deep(.v-timeline-item) {
+    .v-timeline-item__body {
+        padding-block-end: 0px !important;
+    }
 }
 </style>
