@@ -5,9 +5,9 @@ import type { Reminder } from '@/types/reminder'
 export const usePlayerStore = defineStore('playerStore', {
     state: (): Players => ({
         players: [],
-        isUpdated: false,
         reminders: [],
-        nightOrderIndex: -1
+        nightOrderIndex: -1,
+        isUpdated: false
     }),
 
     getters: {
@@ -30,7 +30,6 @@ export const usePlayerStore = defineStore('playerStore', {
 
     actions: {
         addPlayer(player: PlayerInfo): void {
-            this.isUpdated = !this.isUpdated
             const index = this.players.findIndex(item => item.index === player.index)
 
             if (index !== -1) {
@@ -64,6 +63,8 @@ export const usePlayerStore = defineStore('playerStore', {
             });
 
             this.players = this.players.sort((a, b) => a.index - b.index)
+
+            this.triggerUpdate()
         },
 
         updatePlayerStatus(index: number, isAlive: boolean, isZombie: boolean): void {
@@ -71,19 +72,22 @@ export const usePlayerStore = defineStore('playerStore', {
             if (i !== -1) {
                 this.players[i].isAlive = isAlive
                 this.players[i].isZombie = isZombie
-                this.isUpdated = !this.isUpdated
             }
         },
 
         reset(): void {
-            this.isUpdated = !this.isUpdated
             this.players = []
             this.reminders = []
             this.nightOrderIndex = -1
+            this.triggerUpdate()
         },
 
         setNightOrderIndex(index: number) {
             this.nightOrderIndex = index
+        },
+
+        triggerUpdate(): void {
+            this.isUpdated = !this.isUpdated
         }
     }
 })

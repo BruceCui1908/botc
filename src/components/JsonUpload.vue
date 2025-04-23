@@ -34,7 +34,6 @@ const uploadJson: UploadProps['onChange'] = async (file: UploadFile) => {
   try {
     const script = (await parseJson(jsonFile.raw)) as Script[]
     scriptStore.updateScript(script)
-
   } catch (error) {
     ElMessage.error((error as Error).message)
   }

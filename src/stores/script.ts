@@ -10,7 +10,7 @@ interface ScriptState {
   outsiders: Character[]
   minions: Character[]
   demons: Character[]
-  hasGameStarted: boolean
+  isGameOn: boolean
   firstNightOrders: Character[]
   otherNightOrders: Character[]
   reminders: Reminder[]
@@ -32,7 +32,7 @@ export const useScriptStore = defineStore('scriptStore', {
     outsiders: [],
     minions: [],
     demons: [],
-    hasGameStarted: false,
+    isGameOn: false,
     firstNightOrders: [],
     otherNightOrders: [],
     reminders: []
@@ -70,7 +70,7 @@ export const useScriptStore = defineStore('scriptStore', {
 
   actions: {
     updateScript(data: Array<Script>) {
-      if (this.hasGameStarted) {
+      if (this.isGameOn) {
         return
       }
 
@@ -134,18 +134,18 @@ export const useScriptStore = defineStore('scriptStore', {
       this.outsiders = []
       this.minions = []
       this.demons = []
-      this.hasGameStarted = false
+      this.isGameOn = false
       this.firstNightOrders = []
       this.otherNightOrders = []
       this.reminders = []
     },
 
     setGameStarted() {
-      this.hasGameStarted = true
+      this.isGameOn = true
     },
 
     setGameEnded() {
-      this.hasGameStarted = false
+      this.isGameOn = false
     }
   },
 })

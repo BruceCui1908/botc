@@ -40,8 +40,8 @@ export const useProgressStore = defineStore('progressStore', {
             this.timeline.push(dayNode)
         },
         reset(): void {
-            this.isGameOn = false
             this.timeline = []
+            this.isGameOn = false
         }
     },
 })
