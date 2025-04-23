@@ -9,4 +9,5 @@ export interface Status {
 export interface Progress {
   isGameOn: boolean
   timeline: Status[]
+  label: string
 }

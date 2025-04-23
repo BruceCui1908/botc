@@ -46,13 +46,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
 import NightOrder from './NightOrder.vue'
 import { useSettingStore } from '@/stores/setting'
 import { useProgressStore } from '@/stores/progress'
 import { useScriptStore } from '@/stores/script'
+import { ElMessage } from 'element-plus'
 
 const settingStore = useSettingStore()
 const progressStore = useProgressStore()
@@ -60,6 +61,15 @@ const scriptStore = useScriptStore()
 
 const showTimeline = ref<boolean>(false)
 const showNightOrder = ref<boolean>(true)
+
+watch(() => progressStore.label, () => {
+    ElMessage({
+        message: progressStore.label,
+        type: 'success',
+        plain: true,
+        duration: 3000
+    })
+})
 
 const enterTown = () => {
     settingStore.setTownMode(true)

@@ -5,20 +5,24 @@ export const useProgressStore = defineStore('progressStore', {
     state: (): Progress => ({
         isGameOn: false,
         timeline: [],
+        label: ''
     }),
 
     actions: {
         startGame(): void {
+            let label = ''
             if (!this.isGameOn) {
                 this.isGameOn = true
                 if (this.timeline.length == 0) {
+                    label = '第1个夜晚'
                     let firstDayNode: Status = {
                         index: 1,
                         isDay: false,
                         note: '...',
-                        label: `第1个夜晚`,
+                        label: label,
                         isEditMode: false
                     }
+
                     this.timeline.push(firstDayNode)
                 }
 
@@ -29,11 +33,12 @@ export const useProgressStore = defineStore('progressStore', {
             let curIndex = lastItem.isDay ? lastItem.index + 1 : lastItem.index
             let isDay = !lastItem.isDay
 
+            label = `第${curIndex}个${isDay ? '白天' : '夜晚'}`
             let dayNode: Status = {
                 index: curIndex,
                 isDay: isDay,
                 note: '...',
-                label: `第${curIndex}个${isDay ? '白天' : '夜晚'}`,
+                label: label,
                 isEditMode: false
             }
 
