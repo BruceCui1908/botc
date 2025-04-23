@@ -48,7 +48,7 @@
             <el-divider content-position="left">自定义标签</el-divider>
             <el-row :style="customTagRowStyleObj">
                 <el-tag v-for="tag in dynamicTags" :key="tag" closable :disable-transitions="false"
-                    @click="selectCustomReminder(tag)" @close="handleClose(tag)" class="custom-tag">
+                    @click="selectCustomReminder(tag)" class="custom-tag">
                     {{ tag }}
                 </el-tag>
                 <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" size="small"
@@ -88,7 +88,7 @@ const customTagRowStyleObj = computed(() => ({
     gap: '0.3rem'
 }))
 
-watch(() => settingStore.IsReseting, () => {
+watch(() => settingStore.isUpdated, () => {
     dynamicTags.value = []
 })
 

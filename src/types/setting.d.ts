@@ -9,5 +9,5 @@ export interface Setting {
   goodColor: string
   evilColor: stirng
   isInTownMode: Boolean
-  isBeingReset: Boolean
+  isUpdated: Boolean
 }

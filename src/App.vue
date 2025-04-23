@@ -4,19 +4,10 @@
   </el-config-provider>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { ref } from 'vue'
 import { ElConfigProvider } from 'element-plus'
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
 
-export default defineComponent({
-  components: {
-    ElConfigProvider,
-  },
-  data() {
-    return {
-      locale: zhCn,
-    }
-  },
-})
+const locale = ref(zhCn)
 </script>

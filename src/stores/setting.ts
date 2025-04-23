@@ -13,7 +13,7 @@ export const useSettingStore = defineStore('settingStore', {
     goodColor: '#409EFF',
     evilColor: '#D90606',
     isInTownMode: false,
-    isBeingReset: false
+    isUpdated: false
   }),
 
   getters: {
@@ -26,18 +26,6 @@ export const useSettingStore = defineStore('settingStore', {
         state.demonCount,
         state.travellerCount,
       ]
-    },
-
-    GoodColor(state): string {
-      return state.goodColor
-    },
-
-    EvilColor(state): string {
-      return state.evilColor
-    },
-
-    IsReseting(state): boolean {
-      return state.isBeingReset
     }
   },
 
@@ -93,7 +81,7 @@ export const useSettingStore = defineStore('settingStore', {
       this.demonCount = 0
       this.travellerCount = 0
       this.isLocked = false
-      this.isBeingReset = !this.isBeingReset
+      this.isUpdated = !this.isUpdated
     },
 
     setTownMode(mode: boolean): void {

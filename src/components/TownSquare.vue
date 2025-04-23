@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
+import type { CSSProperties } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
 import NightOrder from './NightOrder.vue'
@@ -96,7 +97,7 @@ const toggleNightOrder = () => {
     showNightOrder.value = !showNightOrder.value
 }
 
-const textStyleObj = computed(() => ({
+const textStyleObj = computed<CSSProperties>(() => ({
     position: 'absolute',
     zIndex: 9999,
     top: '50%',

@@ -38,6 +38,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
+import type { CSSProperties } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 import { Switch, Plus } from '@element-plus/icons-vue'
 import Token from './Token.vue'
@@ -64,9 +65,9 @@ const { index } = defineProps({
   index: Number,
 })
 
-const playerRef = ref(null)
-const characterSelectorRef = ref(null)
-const reminderSelectorRef = ref(null)
+const playerRef = ref<HTMLDivElement | null>(null)
+const characterSelectorRef = ref<HTMLDivElement | null>(null)
+const reminderSelectorRef = ref<HTMLDivElement | null>(null)
 
 const logo = ref('')
 const name = ref('')
@@ -91,18 +92,18 @@ const bgColor = ref<string>('rgb(242.5, 208.5, 157.5)')
 
 const cardHeader = computed(() => `${index}号：${name.value}`)
 
-const directionObj = computed(() => ({
+const directionObj = computed<CSSProperties>(() => ({
   flexDirection: isRow.value ? 'row' : 'row-reverse',
 }))
 
-const playerWrapperStyleObj = computed(() => ({
+const playerWrapperStyleObj = computed<CSSProperties>(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
   alignItems: 'flex-start',
   position: 'relative'
 }))
 
-const plusButtonStyleObj = computed(() => {
+const plusButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
     bottom: '0%'
@@ -119,7 +120,7 @@ const plusButtonStyleObj = computed(() => {
   return style
 })
 
-const switchButtonStyleObj = computed(() => {
+const switchButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
     top: '0%'
@@ -136,7 +137,7 @@ const switchButtonStyleObj = computed(() => {
   return style
 })
 
-const cardWrapperStyle = computed(() => {
+const cardWrapperStyle = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     width: cardBodyWidth.value,
     color: isCurrentPlayerInOrder.value ? "white" : "black",
@@ -153,11 +154,13 @@ const cardWrapperStyle = computed(() => {
 
 // drag and drop start
 onMounted(() => {
-  const height = playerRef.value.offsetHeight
+  const height = playerRef.value?.offsetHeight ?? 0
   initialWrapperHeight.value = `${height}px`
 
+  // @ts-ignore
   interact(playerRef.value).draggable({
     // enable inertial throwing
+    // @ts-ignore
     inertia: true,
     // keep the element within the area of it's parent
     modifiers: [
@@ -178,6 +181,7 @@ onMounted(() => {
   })
 })
 
+// @ts-ignore
 function dragMoveListener(event) {
   if (settingStore.isLocked) {
     return
@@ -217,6 +221,7 @@ const getMaxZIndex = (className: string) => {
 // set the player on top when click
 const touchPlayer = () => {
   if (playerRef) {
+    // @ts-ignore
     playerRef.value.style.zIndex = getMaxZIndex('player-wrapper') + 1
   }
 }
@@ -224,7 +229,7 @@ const touchPlayer = () => {
 
 // display character selector dialog
 const selectCharacter = () => {
-  if (!scriptStore.Meta || scriptStore.Characters.length == 0) {
+  if (!scriptStore.meta || scriptStore.characters.length == 0) {
     ElNotification({
       message: '请先选择剧本',
       type: 'warning',
@@ -233,6 +238,7 @@ const selectCharacter = () => {
     return
   }
 
+  // @ts-ignore
   characterSelectorRef?.value?.toggleSelector(index)
 }
 
@@ -334,7 +340,7 @@ const switchRow = () => {
 }
 
 const addReminderToList = () => {
-  if (!scriptStore.Meta || scriptStore.Characters.length == 0) {
+  if (!scriptStore.meta || scriptStore.characters.length == 0) {
     ElNotification({
       message: '请先选择剧本',
       type: 'warning',
@@ -343,6 +349,7 @@ const addReminderToList = () => {
     return
   }
 
+  // @ts-ignore
   reminderSelectorRef?.value?.toggleSelector(index)
 }
 

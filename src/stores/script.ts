@@ -38,36 +38,6 @@ export const useScriptStore = defineStore('scriptStore', {
     reminders: []
   }),
 
-  getters: {
-    Script(state): Script[] {
-      return state.scripts
-    },
-
-    Meta(state): Meta | null {
-      return state.meta
-    },
-
-    Characters(state): Character[] {
-      return state.characters
-    },
-
-    Townsfolks(state): Character[] {
-      return state.townsfolks
-    },
-
-    Outsiders(state): Character[] {
-      return state.outsiders
-    },
-
-    Minions(state): Character[] {
-      return state.minions
-    },
-
-    Demons(state): Character[] {
-      return state.demons
-    },
-  },
-
   actions: {
     updateScript(data: Array<Script>) {
       if (this.isGameOn) {
