@@ -19,6 +19,7 @@ import type { Order } from '@/types/order'
 
 const playerStore = usePlayerStore()
 const progressStore = useProgressStore()
+
 const firstNightOrders = ref<Order[]>([])
 const otherNightOrders = ref<Order[]>([])
 const isInFirstNight = ref<boolean>(false)
@@ -99,8 +100,6 @@ const setNightOrder = (order: Order) => {
     }
     playerStore.setNightOrderIndex(order.index)
 }
-
-
 
 </script>
 

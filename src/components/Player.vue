@@ -21,8 +21,6 @@
               content: item.text,
               arrow: true,
             }" @dblclick="removeTag(item)" />
-            <!-- hide this button -->
-            <!-- <el-button :icon="Sort" size="small" circle @click="toggleAlignment" /> -->
           </div>
         </el-scrollbar>
 
@@ -30,16 +28,6 @@
       <el-button :style="switchButtonStyleObj" :icon="Switch" size="small" circle @click="switchRow" />
       <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
     </el-card>
-
-    <!-- hide the reminder list -->
-    <!-- <div class="reminder-list" :style="reminderListStyleObj">
-      <el-scrollbar :max-height="initialWrapperHeight">
-        <el-tag v-for="(tag, index) in tags" :key="index" closable :disable-transitions="false" @close="removeTag(tag)"
-          :type="tag.color">
-          {{ tag.text }}
-        </el-tag>
-      </el-scrollbar>
-    </div> -->
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
@@ -51,7 +39,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
-import { Switch, Plus, Sort } from '@element-plus/icons-vue'
+import { Switch, Plus } from '@element-plus/icons-vue'
 import Token from './Token.vue'
 import CharacterSelector from './CharacterSelector.vue'
 import ReminderSelector from './ReminderSelector.vue'
@@ -89,6 +77,7 @@ const size = ref(50)
 const tags = ref<Array<Tag>>([])
 const cardBodyWidth = ref('7.4rem')
 const initialWrapperHeight = ref('')
+
 const isAlive = ref(true)
 const isZombie = ref(false)
 const isGood = ref(false)
@@ -112,31 +101,6 @@ const playerWrapperStyleObj = computed(() => ({
   alignItems: 'flex-start',
   position: 'relative'
 }))
-
-// const labelContainerStyleObj = computed(() => ({
-//   display: 'flex',
-//   justifyContent: 'flex-end',
-//   alignItems: isRow.value ? 'flex-end' : 'flex-start'
-// }))
-
-const reminderListStyleObj = computed(() => {
-  const style: Record<string, string> = {
-    display: 'flex',
-    alignItems: isRow.value ? 'flex-start' : 'flex-end',
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    flexDirection: 'column',
-    transform: `translate(${isRow.value ? '100%' : '-100%'}, 0)`
-  }
-
-  if (isRow.value) {
-    style.right = '0%'
-  } else {
-    style.left = '0%'
-  }
-
-  return style
-})
 
 const plusButtonStyleObj = computed(() => {
   const style: Record<string, string> = {
@@ -189,6 +153,7 @@ const cardWrapperStyle = computed(() => {
   return style
 })
 
+// drag and drop start
 onMounted(() => {
   const height = playerRef.value.offsetHeight
   initialWrapperHeight.value = `${height}px`
@@ -257,6 +222,7 @@ const touchPlayer = () => {
     playerRef.value.style.zIndex = getMaxZIndex('player-wrapper') + 1
   }
 }
+// drag and drop end
 
 // display character selector dialog
 const selectCharacter = () => {
@@ -353,8 +319,10 @@ const setPlayerStatus = (status: string) => {
 const setPlayerAlignment = (alignment: string) => {
   if (alignment === '善良') {
     isUpsideDown.value = false
+    isGood.value = true
   } else if (alignment === '邪恶') {
     isUpsideDown.value = true
+    isGood.value = false
   }
 }
 
