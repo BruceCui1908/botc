@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { ElNotification, ElMessage } from 'element-plus'
 import { Switch, Plus, Sort } from '@element-plus/icons-vue'
 import Token from './Token.vue'
@@ -91,6 +91,7 @@ const cardBodyWidth = ref('7.4rem')
 const initialWrapperHeight = ref('')
 const isAlive = ref(true)
 const isZombie = ref(false)
+const isCurrentPlayerInOrder = ref(false)
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -171,7 +172,9 @@ const switchButtonStyleObj = computed(() => {
 })
 
 const cardWrapperStyle = computed(() => ({
-  width: cardBodyWidth.value
+  width: cardBodyWidth.value,
+  backgroundColor: isCurrentPlayerInOrder.value ? "#03A9F4" : "white",
+  color: isCurrentPlayerInOrder.value ? "white" : "black",
 }))
 
 onMounted(() => {
@@ -364,9 +367,10 @@ const addReminderToList = () => {
   reminderSelectorRef?.value?.toggleSelector(index)
 }
 
-const toggleAlignment = () => {
-  isUpsideDown.value = !isUpsideDown.value
-}
+// hightlight selected player
+watch(() => playerStore.nightOrderIndex, () => {
+  isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
+})
 
 </script>
 

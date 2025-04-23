@@ -16,4 +16,5 @@ export interface Players {
     players: PlayerInfo[]
     isUpdated: boolean
     reminders: Reminder[]
+    nightOrderIndex: number
 }

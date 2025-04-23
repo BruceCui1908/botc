@@ -6,7 +6,8 @@ export const usePlayerStore = defineStore('playerStore', {
     state: (): Players => ({
         players: [],
         isUpdated: false,
-        reminders: []
+        reminders: [],
+        nightOrderIndex: -1
     }),
 
     getters: {
@@ -78,6 +79,10 @@ export const usePlayerStore = defineStore('playerStore', {
             this.isUpdated = !this.isUpdated
             this.players = []
             this.reminders = []
+        },
+
+        setNightOrderIndex(index: number) {
+            this.nightOrderIndex = index
         }
     }
 })

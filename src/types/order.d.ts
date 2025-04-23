@@ -1,5 +1,6 @@
 export interface Order {
     label: string
     disabled: boolean
-    color: string
+    color?: string
+    index: number
 }

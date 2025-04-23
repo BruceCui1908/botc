@@ -2,7 +2,7 @@
     <div class="night-order-container">
         <v-timeline align="center" side="start" direction="horizontal">
             <v-timeline-item v-for="(item, index) in nightOrders" :key="index" size="small"
-                class="timeline-item-wrapper font-weight-bold" :dot-color="item.color">
+                class="timeline-item-wrapper font-weight-bold" :dot-color="item.color" @click="setNightOrder(item)">
                 <template v-slot:default>
                     <div v-text="item.label"></div>
                 </template>
@@ -12,48 +12,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, toRaw } from 'vue'
+import { ref, watch } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
 import type { Order } from '@/types/order'
+import { Order } from '../types/order';
 
 const playerStore = usePlayerStore()
 const progressStore = useProgressStore()
-
 const firstNightOrders = ref<Order[]>([])
-watch(() => playerStore.isUpdated, () => {
-    firstNightOrders.value = playerStore.players.filter((item) => item.character.hasOwnProperty('firstNight')
-        && item.character.firstNight !== 0)
-        .sort((a, b) => a.character.firstNight! - b.character.firstNight!)
-        .map((player) => ({
-            label: `${player.index}号: ${player.character.name}`,
-            disabled: !player.isAlive,
-            color: player.isAlive ? 'primary' : 'grey'
-        }))
-})
-
 const otherNightOrders = ref<Order[]>([])
-watch(() => playerStore.isUpdated, () => {
-    otherNightOrders.value = playerStore.players.filter((item) => item.character.hasOwnProperty('otherNight')
-        && item.character.otherNight !== 0)
-        .sort((a, b) => a.character.otherNight! - b.character.otherNight!)
-        .map((player) => ({
-            label: `${player.index}号: ${player.character.name}`,
-            disabled: !player.isAlive,
-            color: player.isAlive ? 'primary' : 'grey'
-        }))
-})
-
-const isInFirstNight = ref<boolean>(true)
+const isInFirstNight = ref<boolean>(false)
 const isInOtherNight = ref<boolean>(false)
+const nightOrders = ref<Order[]>([])
 
 watch(
-    () => progressStore.timeline.length,
+    () => [progressStore.timeline.length, playerStore.isUpdated],
     () => {
         let length = progressStore.timeline.length
         if (length === 0) {
             isInFirstNight.value = true
             isInOtherNight.value = false
+            triggerFilterNightOrders()
             return
         }
 
@@ -63,17 +43,65 @@ watch(
 
         let isOtherNight = !currentTimeline.isDay && length > 1
         isInOtherNight.value = isOtherNight
+        triggerFilterNightOrders()
     },
 )
 
-const nightOrders = ref<Order[]>([])
-watch(() => [playerStore.isUpdated, isInFirstNight, isInOtherNight], () => {
+const triggerFilterNightOrders = () => {
+    firstNightOrders.value = playerStore.players.filter((item) => item?.firstNightOrder !== 0)
+        .sort((a, b) => a.firstNightOrder! - b.firstNightOrder!)
+        .map((player) => {
+            let order: Order = {
+                label: `${player.index}号: ${player.character.name}`,
+                disabled: !player.isAlive,
+                index: player.index
+            }
+
+            if (player.isAlive) {
+                order.color = player.isGood ? 'primary' : 'danger'
+            } else {
+                order.color = 'grey'
+            }
+
+            return order
+        })
+
+    otherNightOrders.value = playerStore.players.filter((item) => item?.otherNightOrder !== 0)
+        .sort((a, b) => a.otherNightOrder! - b.otherNightOrder!)
+        .map((player) => {
+            let order: Order = {
+                label: `${player.index}号: ${player.character.name}`,
+                disabled: !player.isAlive,
+                index: player.index
+            }
+
+            if (player.isAlive) {
+                order.color = player.isGood ? 'primary' : 'danger'
+            } else {
+                order.color = 'grey'
+            }
+
+            return order
+        })
+
     if (isInFirstNight.value) {
         nightOrders.value = firstNightOrders.value
-    } else {
+    } else if (isInOtherNight.value) {
         nightOrders.value = otherNightOrders.value
+    } else {
+        nightOrders.value = []
+        playerStore.setNightOrderIndex(-1)
     }
-})
+}
+
+const setNightOrder = (order: Order) => {
+    if (order.disabled) {
+        return
+    }
+    playerStore.setNightOrderIndex(order.index)
+}
+
+
 
 </script>
 
