@@ -1,10 +1,12 @@
 <template>
     <div class="night-order-container">
-        <v-timeline align="center" side="start" direction="horizontal">
+        <v-timeline align="center" side="start" direction="horizontal" size="x-small" density="compact"
+            truncate-line="both">
             <v-timeline-item v-for="(item, index) in nightOrders" :key="index" :size="12"
                 class="timeline-item-wrapper font-weight-bold" :dot-color="item.color" @click="setNightOrder(item)">
                 <template v-slot:default>
-                    <div v-text="item.label"></div>
+                    <div class="title"><span>{{ item.title }}</span></div>
+                    <div class="label"><span>{{ item.label }}</span></div>
                 </template>
             </v-timeline-item>
         </v-timeline>
@@ -52,7 +54,8 @@ const triggerFilterNightOrders = () => {
         .sort((a, b) => a.firstNightOrder! - b.firstNightOrder!)
         .map((player) => {
             let order: Order = {
-                label: `${player.index}号: ${player.character.name}`,
+                title: `${player.index}号`,
+                label: `${player.character.name}`,
                 disabled: !player.isAlive,
                 index: player.index
             }
@@ -70,7 +73,8 @@ const triggerFilterNightOrders = () => {
         .sort((a, b) => a.otherNightOrder! - b.otherNightOrder!)
         .map((player) => {
             let order: Order = {
-                label: `${player.index}号: ${player.character.name}`,
+                title: `${player.index}号`,
+                label: `${player.character.name}`,
                 disabled: !player.isAlive,
                 index: player.index
             }
@@ -106,11 +110,22 @@ const setNightOrder = (order: Order) => {
 <style lang="scss" scoped>
 .night-order-container {
     width: 100%;
+
+    .title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+::v-deep(.v-timeline--horizontal.v-timeline) {
+    grid-column-gap: 0px;
 }
 
 ::v-deep(.v-timeline-item) {
     .v-timeline-item__body {
         padding-block-end: 0px !important;
+        padding-inline: 0.2rem;
     }
 }
 </style>
