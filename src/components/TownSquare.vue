@@ -3,7 +3,8 @@
         <NightOrder v-show="showNightOrder" />
         <div class="town-container">
 
-            <Player v-for="i in settingStore.playersCount" :index="i" :key="i" :ref="el => setPlayerRef(el, i)" />
+            <Player v-for="(_, index) in settingStore.playersCount" :key="index"
+                :index="settingStore.playersCount - index" :ref="el => setPlayerRef(el, index)" />
 
             <div class="action-list">
                 <v-speed-dial location="top center" transition="fade-transition">
@@ -56,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, toRaw } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import type { CSSProperties } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
