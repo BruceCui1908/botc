@@ -164,7 +164,7 @@ const textStyleObj = computed<CSSProperties>(() => ({
     .action-list {
         position: fixed;
         right: 50%;
-        bottom: 25%;
+        bottom: 13%;
         z-index: 9999;
         transform: translate(50%, 50%);
     }

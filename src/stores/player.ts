@@ -67,12 +67,19 @@ export const usePlayerStore = defineStore('playerStore', {
             this.triggerUpdate()
         },
 
-        updatePlayerStatus(index: number, isAlive: boolean, isZombie: boolean): void {
+        updatePlayerStatus(index: number, isAlive?: boolean, isZombie?: boolean): void {
             const i = this.players.findIndex(item => item.index === index)
             if (i !== -1) {
-                this.players[i].isAlive = isAlive
-                this.players[i].isZombie = isZombie
+                if (isAlive != null) {
+                    this.players[i].isAlive = isAlive
+                }
+
+                if (isZombie != null) {
+                    this.players[i].isZombie = isZombie
+                }
             }
+
+            this.triggerUpdate()
         },
 
         reset(): void {

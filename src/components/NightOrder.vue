@@ -1,7 +1,7 @@
 <template>
     <div class="night-order-container">
         <v-timeline align="center" side="start" direction="horizontal">
-            <v-timeline-item v-for="(item, index) in nightOrders" :key="index" size="small"
+            <v-timeline-item v-for="(item, index) in nightOrders" :key="index" :size="12"
                 class="timeline-item-wrapper font-weight-bold" :dot-color="item.color" @click="setNightOrder(item)">
                 <template v-slot:default>
                     <div v-text="item.label"></div>
