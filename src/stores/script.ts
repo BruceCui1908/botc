@@ -1,20 +1,6 @@
 import { defineStore } from 'pinia'
-import type { Meta, Character, Script } from '@/types/script'
+import type { Meta, Character, Script, ScriptState } from '@/types/script'
 import type { Reminder } from '@/types/reminder'
-
-interface ScriptState {
-  scripts: Script[]
-  meta: Meta | null
-  characters: Character[]
-  townsfolks: Character[]
-  outsiders: Character[]
-  minions: Character[]
-  demons: Character[]
-  isGameOn: boolean
-  firstNightOrders: Character[]
-  otherNightOrders: Character[]
-  reminders: Reminder[]
-}
 
 const metaIndex: string = '_meta'
 const Townsfolk: string = 'townsfolk'

@@ -43,7 +43,9 @@ export const useProgressStore = defineStore('progressStore', {
             }
 
             this.timeline.push(dayNode)
+            this.label = label
         },
+
         reset(): void {
             this.timeline = []
             this.isGameOn = false

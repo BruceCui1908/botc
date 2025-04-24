@@ -3,7 +3,7 @@
         <NightOrder v-show="showNightOrder" />
         <div class="town-container">
 
-            <Player v-for="i in settingStore.playersCount" :index="i" :key="i" />
+            <Player v-for="i in settingStore.playersCount" :index="i" :key="i" :ref="el => setPlayerRef(el, i)" />
 
             <div class="action-list">
                 <v-speed-dial location="top center" transition="fade-transition">
@@ -11,6 +11,16 @@
                         <v-fab v-bind="activatorProps" size="large" density="comfortable" icon="mdi-cog"
                             color="primary"></v-fab>
                     </template>
+
+                    <div key="6" style="position: relative">
+                        <span class="text" :style="textStyleObj">恢复</span>
+                        <v-btn icon="mdi-content-save-minus-outline" @click="restore"></v-btn>
+                    </div>
+
+                    <div key="5" style="position: relative">
+                        <span class="text" :style="textStyleObj">保存</span>
+                        <v-btn icon="mdi-content-save-plus-outline" @click="save"></v-btn>
+                    </div>
 
                     <div key="4" style="position: relative">
                         <span class="text" :style="textStyleObj">行动顺序</span>
@@ -46,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, nextTick, toRaw } from 'vue'
 import type { CSSProperties } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
@@ -54,22 +64,29 @@ import NightOrder from './NightOrder.vue'
 import { useSettingStore } from '@/stores/setting'
 import { useProgressStore } from '@/stores/progress'
 import { useScriptStore } from '@/stores/script'
+import { useCacheStore } from '@/stores/cache'
 import { ElMessage } from 'element-plus'
 
 const settingStore = useSettingStore()
 const progressStore = useProgressStore()
 const scriptStore = useScriptStore()
+const cacheStore = useCacheStore()
 
 const showTimeline = ref<boolean>(false)
 const showNightOrder = ref<boolean>(true)
 
+const playerRefs = ref([])
+
+// @ts-ignore
+const setPlayerRef = (el, index) => {
+    if (el) {
+        // @ts-ignore
+        playerRefs.value[index] = el
+    }
+}
+
 watch(() => progressStore.label, () => {
-    ElMessage({
-        message: progressStore.label,
-        type: 'success',
-        plain: true,
-        duration: 3000
-    })
+    displayLabel(progressStore.label)
 })
 
 const enterTown = () => {
@@ -84,7 +101,6 @@ const startGame = () => {
     if (settingStore.playersCount == 0) {
         return
     }
-
     scriptStore.setGameStarted()
     progressStore.startGame()
 }
@@ -95,6 +111,30 @@ const toggleTimeline = () => {
 
 const toggleNightOrder = () => {
     showNightOrder.value = !showNightOrder.value
+}
+
+const save = () => {
+    cacheStore.saveToCache()
+}
+
+const restore = async () => {
+    cacheStore.restoreFromCache()
+
+    await nextTick()
+
+    playerRefs.value.forEach(player => {
+        // @ts-ignore
+        player.restorePlayerInfo()
+    });
+}
+
+const displayLabel = (label: string) => {
+    ElMessage({
+        message: label,
+        type: 'success',
+        plain: true,
+        duration: 3000
+    })
 }
 
 const textStyleObj = computed<CSSProperties>(() => ({

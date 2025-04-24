@@ -81,11 +81,15 @@ export const useSettingStore = defineStore('settingStore', {
       this.demonCount = 0
       this.travellerCount = 0
       this.isLocked = false
-      this.isUpdated = !this.isUpdated
+      this.triggerUpdate()
     },
 
     setTownMode(mode: boolean): void {
       this.isInTownMode = mode
     },
+
+    triggerUpdate(): void {
+      this.isUpdated = !this.isUpdated
+    }
   },
 })

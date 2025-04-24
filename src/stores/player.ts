@@ -82,6 +82,10 @@ export const usePlayerStore = defineStore('playerStore', {
             this.triggerUpdate()
         },
 
+        findPlayer(index: number): PlayerInfo | undefined {
+            return this.players.find(item => item.index === index)
+        },
+
         setNightOrderIndex(index: number) {
             this.nightOrderIndex = index
         },

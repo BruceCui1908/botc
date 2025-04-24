@@ -61,17 +61,42 @@ import '@interactjs/dev-tools'
 import interact from '@interactjs/interact'
 import type { Reminder } from '@/types/reminder'
 
-const { index } = defineProps({
+const { index, isPlayerAlive, isPlayerZombie, isPlayerGood, logoUrl, cName, cTeam } = defineProps({
   index: Number,
+  isPlayerAlive: {
+    type: Boolean,
+    default: true,
+  },
+  isPlayerZombie: {
+    type: Boolean,
+    default: false,
+  },
+  isPlayerGood: {
+    type: Boolean,
+    default: false,
+  },
+  logoUrl: {
+    type: String,
+    default: "",
+  },
+  cName: {
+    type: String,
+    default: "",
+  },
+  cTeam: {
+    type: String,
+    default: "",
+  },
 })
 
 const playerRef = ref<HTMLDivElement | null>(null)
 const characterSelectorRef = ref<HTMLDivElement | null>(null)
 const reminderSelectorRef = ref<HTMLDivElement | null>(null)
 
-const logo = ref('')
-const name = ref('')
-const team = ref('')
+const logo = ref<string>(logoUrl)
+const name = ref<string>(cName)
+const team = ref<string>(cTeam)
+
 const isRow = ref(true)
 const isUpsideDown = ref(false)
 const size = ref(50)
@@ -79,9 +104,9 @@ const tags = ref<Array<Tag>>([])
 const cardBodyWidth = ref('7.4rem')
 const initialWrapperHeight = ref('')
 
-const isAlive = ref(true)
-const isZombie = ref(false)
-const isGood = ref(false)
+const isAlive = ref<boolean>(isPlayerAlive)
+const isZombie = ref<boolean>(isPlayerZombie)
+const isGood = ref<boolean>(isPlayerGood)
 const isCurrentPlayerInOrder = ref(false)
 
 const settingStore = useSettingStore()
@@ -358,6 +383,23 @@ watch(() => playerStore.nightOrderIndex, () => {
   isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
 })
 
+const restorePlayerInfo = () => {
+  let selectedPlayer = playerStore.players.find(player => player.index === index)
+  if (!selectedPlayer) {
+    return
+  }
+
+  isAlive.value = selectedPlayer.isAlive
+  isZombie.value = selectedPlayer.isZombie
+  isGood.value = selectedPlayer.isGood
+  logo.value = selectedPlayer.character.image
+  name.value = selectedPlayer.character.name
+  team.value = selectedPlayer.team
+}
+
+defineExpose({
+  restorePlayerInfo
+})
 </script>
 
 <style lang="scss" scoped>
