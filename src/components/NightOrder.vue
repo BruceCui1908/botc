@@ -110,6 +110,7 @@ const setNightOrder = (order: Order) => {
 <style lang="scss" scoped>
 .night-order-container {
     width: 100%;
+    padding: 0rem 0rem 1rem 0rem;
 
     .title {
         display: flex;
