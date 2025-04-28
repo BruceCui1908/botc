@@ -28,7 +28,6 @@
                         <v-btn icon="mdi-order-numeric-ascending" @click="toggleNightOrder"></v-btn>
                     </div>
 
-
                     <div key="3" style="position: relative">
                         <span class="text" :style="textStyleObj">时间线</span>
                         <v-btn icon="mdi-timeline-clock" @click="toggleTimeline"></v-btn>
@@ -102,6 +101,7 @@ const startGame = () => {
     if (settingStore.playersCount == 0) {
         return
     }
+
     scriptStore.setGameStarted()
     progressStore.startGame()
 }
@@ -121,6 +121,7 @@ const save = () => {
 const restore = async () => {
     cacheStore.restoreFromCache()
 
+    // waiting for players to render
     await nextTick()
 
     playerRefs.value.forEach(player => {

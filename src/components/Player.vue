@@ -383,6 +383,22 @@ watch(() => playerStore.nightOrderIndex, () => {
   isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
 })
 
+// reset player info
+watch(() => playerStore.players.length, (newLength, oldLength) => {
+  if (newLength == 0 && oldLength > 0) {
+    clearPlayerInfo()
+  }
+})
+
+const clearPlayerInfo = () => {
+  isAlive.value = true
+  isZombie.value = false
+  isGood.value = true
+  logo.value = ""
+  name.value = ""
+  team.value = ""
+}
+
 const restorePlayerInfo = () => {
   let selectedPlayer = playerStore.players.find(player => player.index === index)
   if (!selectedPlayer) {

@@ -22,6 +22,7 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="dialogVisible = false">停留一会儿</el-button>
+          <el-button type="success" @click="clearCharacters"> 保留座位 </el-button>
           <el-button type="primary" @click="refresh"> 重置 </el-button>
         </div>
       </template>
@@ -73,6 +74,20 @@ const handleChange = (value: number | undefined) => {
 
 const lock = (isLocked: boolean) => {
   settingStore.lock(isLocked)
+}
+
+const clearCharacters = () => {
+  scriptStore.setGameEnded()
+  progressStore.reset()
+  playerStore.reset()
+  dialogVisible.value = false
+  isLocked.value = false
+
+  ElMessage({
+    message: '小镇已被重置',
+    type: 'success',
+    duration: 1000,
+  })
 }
 
 const refresh = () => {
