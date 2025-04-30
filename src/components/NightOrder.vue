@@ -18,6 +18,7 @@ import { ref, watch } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
 import type { Order } from '@/types/order'
+import { pl } from 'vuetify/locale'
 
 const playerStore = usePlayerStore()
 const progressStore = useProgressStore()
@@ -66,6 +67,11 @@ const triggerFilterNightOrders = () => {
                 order.color = 'grey'
             }
 
+            if (player.isZombie) {
+                order.color = '#F57C00'
+                order.disabled = false
+            }
+
             return order
         })
 
@@ -83,6 +89,11 @@ const triggerFilterNightOrders = () => {
                 order.color = player.isGood ? 'primary' : '#C62828'
             } else {
                 order.color = 'grey'
+            }
+
+            if (player.isZombie) {
+                order.color = '#F57C00'
+                order.disabled = false
             }
 
             return order

@@ -45,7 +45,7 @@
                     {{ item }}</el-tag>
             </el-row>
 
-            <el-divider content-position="left">自定义标签</el-divider>
+            <!-- <el-divider content-position="left">自定义标签</el-divider>
             <el-row :style="customTagRowStyleObj">
                 <el-tag v-for="tag in dynamicTags" :key="tag" closable :disable-transitions="false"
                     @click="selectCustomReminder(tag)" class="custom-tag">
@@ -56,7 +56,7 @@
                 <el-button v-else size="small" @click="showInput">
                     + New Tag
                 </el-button>
-            </el-row>
+            </el-row> -->
         </el-scrollbar>
     </el-dialog>
 </template>

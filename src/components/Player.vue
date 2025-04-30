@@ -170,6 +170,10 @@ const cardWrapperStyle = computed<CSSProperties>(() => {
 
   if (isCurrentPlayerInOrder.value) {
     style.backgroundColor = isGood.value ? 'rgb(24, 103, 192)' : '#C62828'
+    if (isZombie.value) {
+      style.backgroundColor = '#F57C00'
+    }
+
   } else {
     style.backgroundColor = "white"
   }
@@ -397,6 +401,7 @@ const clearPlayerInfo = () => {
   logo.value = ""
   name.value = ""
   team.value = ""
+  tags.value = []
 }
 
 const restorePlayerInfo = () => {

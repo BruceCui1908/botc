@@ -23,6 +23,7 @@ export const useProgressStore = defineStore('progressStore', {
                         isEditMode: false
                     }
 
+                    this.label = label
                     this.timeline.push(firstDayNode)
                 }
 
