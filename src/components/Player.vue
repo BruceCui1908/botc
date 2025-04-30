@@ -402,6 +402,7 @@ const clearPlayerInfo = () => {
   name.value = ""
   team.value = ""
   tags.value = []
+  bgColor.value = 'rgb(242.5, 208.5, 157.5)'
 }
 
 const restorePlayerInfo = () => {
