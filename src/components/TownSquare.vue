@@ -65,14 +65,12 @@ import { useSettingStore } from '@/stores/setting'
 import { useProgressStore } from '@/stores/progress'
 import { useScriptStore } from '@/stores/script'
 import { useCacheStore } from '@/stores/cache'
-import { usePlayerStore } from '@/stores/player'
 import { ElMessage } from 'element-plus'
 
 const settingStore = useSettingStore()
 const progressStore = useProgressStore()
 const scriptStore = useScriptStore()
 const cacheStore = useCacheStore()
-const playerStore = usePlayerStore()
 
 const showTimeline = ref<boolean>(false)
 const showNightOrder = ref<boolean>(true)
