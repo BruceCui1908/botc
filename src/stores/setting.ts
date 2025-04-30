@@ -13,7 +13,7 @@ export const useSettingStore = defineStore('settingStore', {
     goodColor: '#409EFF',
     evilColor: '#D90606',
     isInTownMode: false,
-    isUpdated: false
+    isUpdated: false,
   }),
 
   getters: {
@@ -26,7 +26,7 @@ export const useSettingStore = defineStore('settingStore', {
         state.demonCount,
         state.travellerCount,
       ]
-    }
+    },
   },
 
   actions: {
@@ -90,6 +90,6 @@ export const useSettingStore = defineStore('settingStore', {
 
     triggerUpdate(): void {
       this.isUpdated = !this.isUpdated
-    }
+    },
   },
 })

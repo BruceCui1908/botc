@@ -21,7 +21,7 @@ export const useScriptStore = defineStore('scriptStore', {
     isGameOn: false,
     firstNightOrders: [],
     otherNightOrders: [],
-    reminders: []
+    reminders: [],
   }),
 
   actions: {
@@ -36,24 +36,25 @@ export const useScriptStore = defineStore('scriptStore', {
       let meta = this.scripts.find((item) => item.id === metaIndex) as Meta
 
       // extract all characters
-      let characters = this.scripts.filter((item) => item.id !== metaIndex
-        && teams.includes(item.team ?? '')) as Character[]
+      let characters = this.scripts.filter(
+        (item) => item.id !== metaIndex && teams.includes(item.team ?? ''),
+      ) as Character[]
 
-      characters.forEach(item => {
+      characters.forEach((item) => {
         if (item.team === Townsfolk || item.team === Outsider) {
           item.isGood = true
         } else {
           item.isGood = false
         }
 
-        const combinedReminders = (item.reminders ?? []).concat(item.remindersGlobal ?? []);
+        const combinedReminders = (item.reminders ?? []).concat(item.remindersGlobal ?? [])
         if (combinedReminders.length > 0) {
           let reminder: Reminder = {
             logo: item.image,
             text: combinedReminders,
             name: item.name,
             isGood: item.isGood!,
-            team: item.team
+            team: item.team,
           }
           this.reminders.push(reminder)
         }
@@ -102,6 +103,6 @@ export const useScriptStore = defineStore('scriptStore', {
 
     setGameEnded() {
       this.isGameOn = false
-    }
+    },
   },
 })

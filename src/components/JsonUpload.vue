@@ -1,7 +1,14 @@
 <template>
   <div class="upload-container">
-    <el-upload class="upload-button" v-model:file-list="fileList" :auto-upload="false" :multiple="false" accept=".json"
-      :show-file-list="false" :on-change="uploadJson">
+    <el-upload
+      class="upload-button"
+      v-model:file-list="fileList"
+      :auto-upload="false"
+      :multiple="false"
+      accept=".json"
+      :show-file-list="false"
+      :on-change="uploadJson"
+    >
       <template #trigger>
         <el-button type="primary">请上传剧本JSON</el-button>
       </template>

@@ -9,49 +9,49 @@ import type { ScriptState } from '@/types/script'
 import type { Setting } from '@/types/setting'
 
 interface Cache {
-    players: Players
-    progress: Progress
-    script: ScriptState
-    setting: Setting
+  players: Players
+  progress: Progress
+  script: ScriptState
+  setting: Setting
 }
 
-const botcCacheKey: string = "botc"
+const botcCacheKey: string = 'botc'
 
 export const useCacheStore = defineStore('cacheStore', {
-    actions: {
-        saveToCache(): void {
-            const playerStore = usePlayerStore()
-            const progressStore = useProgressStore()
-            const scriptStore = useScriptStore()
-            const settingStore = useSettingStore()
+  actions: {
+    saveToCache(): void {
+      const playerStore = usePlayerStore()
+      const progressStore = useProgressStore()
+      const scriptStore = useScriptStore()
+      const settingStore = useSettingStore()
 
-            let cache: Cache = {
-                players: playerStore.$state,
-                progress: progressStore.$state,
-                script: scriptStore.$state,
-                setting: settingStore.$state
-            }
+      let cache: Cache = {
+        players: playerStore.$state,
+        progress: progressStore.$state,
+        script: scriptStore.$state,
+        setting: settingStore.$state,
+      }
 
-            localStorage.setItem(botcCacheKey, JSON.stringify(cache))
-        },
+      localStorage.setItem(botcCacheKey, JSON.stringify(cache))
+    },
 
-        restoreFromCache(): void {
-            const playerStore = usePlayerStore()
-            const progressStore = useProgressStore()
-            const scriptStore = useScriptStore()
-            const settingStore = useSettingStore()
+    restoreFromCache(): void {
+      const playerStore = usePlayerStore()
+      const progressStore = useProgressStore()
+      const scriptStore = useScriptStore()
+      const settingStore = useSettingStore()
 
-            try {
-                const cache: Cache = JSON.parse(localStorage.getItem(botcCacheKey) ?? "")
+      try {
+        const cache: Cache = JSON.parse(localStorage.getItem(botcCacheKey) ?? '')
 
-                progressStore.$state = cache.progress
-                scriptStore.$state = cache.script
-                settingStore.$state = cache.setting
-                playerStore.$state = cache.players
-                playerStore.triggerUpdate()
-            } catch (err) {
-                console.error(err)
-            }
-        },
-    }
+        progressStore.$state = cache.progress
+        scriptStore.$state = cache.script
+        settingStore.$state = cache.setting
+        playerStore.$state = cache.players
+        playerStore.triggerUpdate()
+      } catch (err) {
+        console.error(err)
+      }
+    },
+  },
 })

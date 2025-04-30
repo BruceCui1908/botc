@@ -4,36 +4,68 @@
       <template #header>
         <div class="card-header" :style="directionObj">
           <span>{{ cardHeader }}</span>
-
         </div>
       </template>
 
       <div class="card-body" :style="directionObj">
-        <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
-          :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
+        <Token
+          :logo="logo"
+          :name="name"
+          :team="team"
+          :size="size"
+          :showLabel="false"
+          @click="selectCharacter"
+          :bgColor="bgColor"
+          :style="directionObj"
+          :isUpsideDown="isUpsideDown"
+          class="token-container"
+        />
 
         <el-scrollbar max-height="60px">
           <div class="label-container">
-            <el-avatar v-for="(item, index) in tags" :key="index" :src="item.image" size="small" :style="{
-              background: 'transparent',
-              border: '1px grey solid'
-            }" v-tippy="{
-              content: item.text,
-              arrow: true,
-            }" @dblclick="removeTag(item)" />
+            <el-avatar
+              v-for="(item, index) in tags"
+              :key="index"
+              :src="item.image"
+              size="small"
+              :style="{
+                background: 'transparent',
+                border: '1px grey solid',
+              }"
+              v-tippy="{
+                content: item.text,
+                arrow: true,
+              }"
+              @dblclick="removeTag(item)"
+            />
           </div>
         </el-scrollbar>
-
       </div>
-      <el-button :style="switchButtonStyleObj" :icon="Switch" size="small" circle @click="switchRow" />
-      <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
+      <el-button
+        :style="switchButtonStyleObj"
+        :icon="Switch"
+        size="small"
+        circle
+        @click="switchRow"
+      />
+      <el-button
+        :style="plusButtonStyleObj"
+        :icon="Plus"
+        size="small"
+        circle
+        @click="addReminderToList"
+      />
     </el-card>
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
-  <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
-    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus"
-    @trigger-alignment-select="setPlayerAlignment" />
+  <ReminderSelector
+    ref="reminderSelectorRef"
+    @trigger-select="setSelectedReminder"
+    @trigger-custom-select="setCustomSelectedReminder"
+    @trigger-status-select="setPlayerStatus"
+    @trigger-alignment-select="setPlayerAlignment"
+  />
 </template>
 
 <script setup lang="ts">
@@ -77,15 +109,15 @@ const { index, isPlayerAlive, isPlayerZombie, isPlayerGood, logoUrl, cName, cTea
   },
   logoUrl: {
     type: String,
-    default: "",
+    default: '',
   },
   cName: {
     type: String,
-    default: "",
+    default: '',
   },
   cTeam: {
     type: String,
-    default: "",
+    default: '',
   },
 })
 
@@ -125,13 +157,13 @@ const playerWrapperStyleObj = computed<CSSProperties>(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
   alignItems: 'flex-start',
-  position: 'relative'
+  position: 'relative',
 }))
 
 const plusButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
-    bottom: '0%'
+    bottom: '0%',
   }
 
   if (isRow.value) {
@@ -148,7 +180,7 @@ const plusButtonStyleObj = computed<CSSProperties>(() => {
 const switchButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
-    top: '0%'
+    top: '0%',
   }
 
   if (isRow.value) {
@@ -165,7 +197,7 @@ const switchButtonStyleObj = computed<CSSProperties>(() => {
 const cardWrapperStyle = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     width: cardBodyWidth.value,
-    color: isCurrentPlayerInOrder.value ? "white" : "black",
+    color: isCurrentPlayerInOrder.value ? 'white' : 'black',
   }
 
   if (isCurrentPlayerInOrder.value) {
@@ -173,9 +205,8 @@ const cardWrapperStyle = computed<CSSProperties>(() => {
     if (isZombie.value) {
       style.backgroundColor = '#F57C00'
     }
-
   } else {
-    style.backgroundColor = "white"
+    style.backgroundColor = 'white'
   }
 
   return style
@@ -205,7 +236,7 @@ onMounted(() => {
       // call this function on every dragmove event
       move: dragMoveListener,
       // call this function on every dragend event
-      end(event) { },
+      end(event) {},
     },
   })
 })
@@ -233,18 +264,18 @@ function dragMoveListener(event) {
 }
 
 const getMaxZIndex = (className: string) => {
-  const elements = document.querySelectorAll(`.${className}`);
-  let maxZ = 0;
+  const elements = document.querySelectorAll(`.${className}`)
+  let maxZ = 0
 
-  elements.forEach(el => {
-    const z = window.getComputedStyle(el).zIndex;
-    const zIndex = isNaN(parseInt(z)) ? 0 : parseInt(z);
+  elements.forEach((el) => {
+    const z = window.getComputedStyle(el).zIndex
+    const zIndex = isNaN(parseInt(z)) ? 0 : parseInt(z)
     if (zIndex > maxZ) {
-      maxZ = zIndex;
+      maxZ = zIndex
     }
-  });
+  })
 
-  return maxZ;
+  return maxZ
 }
 
 // set the player on top when click
@@ -302,7 +333,7 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     color: reminder.isGood ? 'primary' : 'danger',
     text: `${label}`,
-    image: reminder.logo
+    image: reminder.logo,
   }
 
   if (!tags.value?.includes(tag)) {
@@ -314,7 +345,7 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
 const setCustomSelectedReminder = (label: string) => {
   let tag: Tag = {
     color: 'success',
-    text: label
+    text: label,
   }
 
   if (!tags.value?.includes(tag)) {
@@ -383,30 +414,36 @@ const addReminderToList = () => {
 }
 
 // hightlight selected player
-watch(() => playerStore.nightOrderIndex, () => {
-  isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
-})
+watch(
+  () => playerStore.nightOrderIndex,
+  () => {
+    isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
+  },
+)
 
 // reset player info
-watch(() => playerStore.players.length, (newLength, oldLength) => {
-  if (newLength == 0 && oldLength > 0) {
-    clearPlayerInfo()
-  }
-})
+watch(
+  () => playerStore.players.length,
+  (newLength, oldLength) => {
+    if (newLength == 0 && oldLength > 0) {
+      clearPlayerInfo()
+    }
+  },
+)
 
 const clearPlayerInfo = () => {
   isAlive.value = true
   isZombie.value = false
   isGood.value = true
-  logo.value = ""
-  name.value = ""
-  team.value = ""
+  logo.value = ''
+  name.value = ''
+  team.value = ''
   tags.value = []
   bgColor.value = 'rgb(242.5, 208.5, 157.5)'
 }
 
 const restorePlayerInfo = () => {
-  let selectedPlayer = playerStore.players.find(player => player.index === index)
+  let selectedPlayer = playerStore.players.find((player) => player.index === index)
   if (!selectedPlayer) {
     return
   }
@@ -420,7 +457,7 @@ const restorePlayerInfo = () => {
 }
 
 defineExpose({
-  restorePlayerInfo
+  restorePlayerInfo,
 })
 </script>
 

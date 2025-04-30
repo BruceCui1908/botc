@@ -2,10 +2,22 @@
   <div class="panel-container">
     <el-row class="player-info">
       <span class="label">请选择玩家数量</span>
-      <el-input-number v-model="num" :min="5" :max="20" @change="handleChange" :disabled="settingStore.isLocked" />
-      <el-switch v-model="isLocked" class="ml-2" inline-prompt
-        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949" active-text="已锁定" inactive-text="未锁定"
-        @change="lock" />
+      <el-input-number
+        v-model="num"
+        :min="5"
+        :max="20"
+        @change="handleChange"
+        :disabled="settingStore.isLocked"
+      />
+      <el-switch
+        v-model="isLocked"
+        class="ml-2"
+        inline-prompt
+        style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+        active-text="已锁定"
+        inactive-text="未锁定"
+        @change="lock"
+      />
     </el-row>
 
     <el-row class="player-info">
