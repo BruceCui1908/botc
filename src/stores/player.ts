@@ -7,7 +7,7 @@ export const usePlayerStore = defineStore('playerStore', {
     players: [],
     reminders: [],
     nightOrderIndex: -1,
-    isUpdated: false,
+    isUpdated: false
   }),
 
   getters: {
@@ -25,7 +25,7 @@ export const usePlayerStore = defineStore('playerStore', {
 
     DemonReminders(state): Reminder[] {
       return state.reminders.filter((item) => item.team === 'demon')
-    },
+    }
   },
 
   actions: {
@@ -47,7 +47,7 @@ export const usePlayerStore = defineStore('playerStore', {
           text: combinedReminders,
           name: character.name,
           isGood: player.isGood!,
-          team: player.team,
+          team: player.team
         }
         this.reminders.push(reminder)
       }
@@ -99,6 +99,6 @@ export const usePlayerStore = defineStore('playerStore', {
 
     triggerUpdate(): void {
       this.isUpdated = !this.isUpdated
-    },
-  },
+    }
+  }
 })

@@ -21,7 +21,7 @@ export const useScriptStore = defineStore('scriptStore', {
     isGameOn: false,
     firstNightOrders: [],
     otherNightOrders: [],
-    reminders: [],
+    reminders: []
   }),
 
   actions: {
@@ -37,7 +37,7 @@ export const useScriptStore = defineStore('scriptStore', {
 
       // extract all characters
       let characters = this.scripts.filter(
-        (item) => item.id !== metaIndex && teams.includes(item.team ?? ''),
+        (item) => item.id !== metaIndex && teams.includes(item.team ?? '')
       ) as Character[]
 
       characters.forEach((item) => {
@@ -54,7 +54,7 @@ export const useScriptStore = defineStore('scriptStore', {
             text: combinedReminders,
             name: item.name,
             isGood: item.isGood!,
-            team: item.team,
+            team: item.team
           }
           this.reminders.push(reminder)
         }
@@ -103,6 +103,6 @@ export const useScriptStore = defineStore('scriptStore', {
 
     setGameEnded() {
       this.isGameOn = false
-    },
-  },
+    }
+  }
 })

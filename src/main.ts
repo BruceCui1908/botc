@@ -38,8 +38,8 @@ app.use(VueTippy, {
   component: 'tippy',
   componentSingleton: 'tippy-singleton',
   defaultProps: {
-    allowHTML: true,
-  },
+    allowHTML: true
+  }
 })
 
 const vuetify = createVuetify({
@@ -49,9 +49,9 @@ const vuetify = createVuetify({
     defaultSet: 'mdi',
     aliases,
     sets: {
-      mdi,
-    },
-  },
+      mdi
+    }
+  }
 })
 app.use(vuetify)
 

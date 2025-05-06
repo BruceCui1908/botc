@@ -14,6 +14,7 @@ export const useSettingStore = defineStore('settingStore', {
     evilColor: '#D90606',
     isInTownMode: false,
     isUpdated: false,
+    maxIndex: -1
   }),
 
   getters: {
@@ -24,9 +25,9 @@ export const useSettingStore = defineStore('settingStore', {
         state.outsiderCount,
         state.minionCount,
         state.demonCount,
-        state.travellerCount,
+        state.travellerCount
       ]
-    },
+    }
   },
 
   actions: {
@@ -88,8 +89,12 @@ export const useSettingStore = defineStore('settingStore', {
       this.isInTownMode = mode
     },
 
+    setMaxZIndex(index: number): void {
+      this.maxIndex = index + 1
+    },
+
     triggerUpdate(): void {
       this.isUpdated = !this.isUpdated
-    },
-  },
+    }
+  }
 })

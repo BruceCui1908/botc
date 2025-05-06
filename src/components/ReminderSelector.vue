@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" title="请选择角色技能标记" width="21rem" style="z-index: 9999">
+  <el-dialog v-model="showDialog" title="请选择角色技能标记" width="21rem" :z-index="zIndex">
     <el-scrollbar max-height="26rem" height="26rem">
       <el-divider content-position="left">镇民</el-divider>
       <el-row
@@ -119,29 +119,39 @@ const inputVisible = ref(false)
 const InputRef = ref<InputInstance>()
 const alignmentList = ref(['善良', '邪恶'])
 const statusList = ref(['存活', '死亡', '活尸'])
+const zIndex = ref<number>(4000)
 
 const rowStyleObj = computed(() => ({
   padding: '0.2rem 0',
-  gap: '0.1rem',
+  gap: '0.1rem'
 }))
 
 const customTagRowStyleObj = computed(() => ({
   padding: '0.2rem 0',
-  gap: '0.3rem',
+  gap: '0.3rem'
 }))
 
 watch(
   () => settingStore.isUpdated,
   () => {
     dynamicTags.value = []
-  },
+  }
+)
+
+watch(
+  () => settingStore.maxIndex,
+  (maxIndex: number) => {
+    if (maxIndex > zIndex.value) {
+      zIndex.value = maxIndex
+    }
+  }
 )
 
 const emit = defineEmits([
   'trigger-select',
   'trigger-custom-select',
   'trigger-status-select',
-  'trigger-alignment-select',
+  'trigger-alignment-select'
 ])
 
 const toggleSelector = () => {

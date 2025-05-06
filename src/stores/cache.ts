@@ -29,7 +29,7 @@ export const useCacheStore = defineStore('cacheStore', {
         players: playerStore.$state,
         progress: progressStore.$state,
         script: scriptStore.$state,
-        setting: settingStore.$state,
+        setting: settingStore.$state
       }
 
       localStorage.setItem(botcCacheKey, JSON.stringify(cache))
@@ -52,6 +52,6 @@ export const useCacheStore = defineStore('cacheStore', {
       } catch (err) {
         console.error(err)
       }
-    },
-  },
+    }
+  }
 })

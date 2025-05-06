@@ -6,12 +6,12 @@
       :src="logo"
       :style="{
         backgroundColor: bgColor,
-        transform: isUpsideDown ? 'rotate(180deg)' : 'rotate(0deg)',
+        transform: isUpsideDown ? 'rotate(180deg)' : 'rotate(0deg)'
       }"
       v-tippy="{
         content: name,
         arrow: true,
-        onShow: () => showLabel,
+        onShow: () => showLabel
       }"
     />
   </div>
@@ -25,16 +25,16 @@ const { logo, team, name, size, showLabel, bgColor } = defineProps({
   size: Number,
   showLabel: {
     type: Boolean,
-    default: true,
+    default: true
   },
   bgColor: {
     type: String,
-    default: 'rgb(250, 236.4, 216)',
+    default: 'rgb(250, 236.4, 216)'
   },
   isUpsideDown: {
     type: Boolean,
-    default: false,
-  },
+    default: false
+  }
 })
 </script>
 

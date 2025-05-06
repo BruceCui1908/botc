@@ -63,7 +63,7 @@ watch(
     let isOtherNight = !currentTimeline.isDay && length > 1
     isInOtherNight.value = isOtherNight
     triggerFilterNightOrders()
-  },
+  }
 )
 
 const triggerFilterNightOrders = () => {
@@ -75,7 +75,7 @@ const triggerFilterNightOrders = () => {
         title: `${player.index}号`,
         label: `${player.character.name}`,
         disabled: !player.isAlive,
-        index: player.index,
+        index: player.index
       }
 
       if (player.isAlive) {
@@ -100,7 +100,7 @@ const triggerFilterNightOrders = () => {
         title: `${player.index}号`,
         label: `${player.character.name}`,
         disabled: !player.isAlive,
-        index: player.index,
+        index: player.index
       }
 
       if (player.isAlive) {

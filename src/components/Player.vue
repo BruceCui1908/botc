@@ -23,21 +23,17 @@
 
         <el-scrollbar max-height="60px">
           <div class="label-container">
-            <el-avatar
-              v-for="(item, index) in tags"
-              :key="index"
-              :src="item.image"
-              size="small"
-              :style="{
-                background: 'transparent',
-                border: '1px grey solid',
-              }"
-              v-tippy="{
-                content: item.text,
-                arrow: true,
-              }"
-              @dblclick="removeTag(item)"
-            />
+            <el-tooltip :content="item.text" v-for="(item, index) in tags" :key="index">
+              <el-avatar
+                :src="item.image"
+                size="small"
+                :style="{
+                  background: 'transparent',
+                  border: '1px grey solid'
+                }"
+                @dblclick="removeTag(item)"
+              />
+            </el-tooltip>
           </div>
         </el-scrollbar>
       </div>
@@ -97,28 +93,28 @@ const { index, isPlayerAlive, isPlayerZombie, isPlayerGood, logoUrl, cName, cTea
   index: Number,
   isPlayerAlive: {
     type: Boolean,
-    default: true,
+    default: true
   },
   isPlayerZombie: {
     type: Boolean,
-    default: false,
+    default: false
   },
   isPlayerGood: {
     type: Boolean,
-    default: false,
+    default: false
   },
   logoUrl: {
     type: String,
-    default: '',
+    default: ''
   },
   cName: {
     type: String,
-    default: '',
+    default: ''
   },
   cTeam: {
     type: String,
-    default: '',
-  },
+    default: ''
+  }
 })
 
 const playerRef = ref<HTMLDivElement | null>(null)
@@ -150,20 +146,20 @@ const bgColor = ref<string>('rgb(242.5, 208.5, 157.5)')
 const cardHeader = computed(() => `${index}号：${name.value}`)
 
 const directionObj = computed<CSSProperties>(() => ({
-  flexDirection: isRow.value ? 'row' : 'row-reverse',
+  flexDirection: isRow.value ? 'row' : 'row-reverse'
 }))
 
 const playerWrapperStyleObj = computed<CSSProperties>(() => ({
   display: 'flex',
   flexDirection: isRow.value ? 'row' : 'row-reverse',
   alignItems: 'flex-start',
-  position: 'relative',
+  position: 'relative'
 }))
 
 const plusButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
-    bottom: '0%',
+    bottom: '0%'
   }
 
   if (isRow.value) {
@@ -180,7 +176,7 @@ const plusButtonStyleObj = computed<CSSProperties>(() => {
 const switchButtonStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     position: 'absolute',
-    top: '0%',
+    top: '0%'
   }
 
   if (isRow.value) {
@@ -197,7 +193,7 @@ const switchButtonStyleObj = computed<CSSProperties>(() => {
 const cardWrapperStyle = computed<CSSProperties>(() => {
   const style: Record<string, string> = {
     width: cardBodyWidth.value,
-    color: isCurrentPlayerInOrder.value ? 'white' : 'black',
+    color: isCurrentPlayerInOrder.value ? 'white' : 'black'
   }
 
   if (isCurrentPlayerInOrder.value) {
@@ -226,8 +222,8 @@ onMounted(() => {
     modifiers: [
       interact.modifiers.restrictRect({
         restriction: 'parent',
-        endOnly: true,
-      }),
+        endOnly: true
+      })
     ],
     // enable autoScroll
     autoScroll: true,
@@ -236,8 +232,8 @@ onMounted(() => {
       // call this function on every dragmove event
       move: dragMoveListener,
       // call this function on every dragend event
-      end(event) {},
-    },
+      end(event) {}
+    }
   })
 })
 
@@ -281,8 +277,10 @@ const getMaxZIndex = (className: string) => {
 // set the player on top when click
 const touchPlayer = () => {
   if (playerRef) {
+    let maxIndex = getMaxZIndex('player-wrapper') + 1
     // @ts-ignore
-    playerRef.value.style.zIndex = getMaxZIndex('player-wrapper') + 1
+    playerRef.value.style.zIndex = maxIndex.toString()
+    settingStore.setMaxZIndex(maxIndex)
   }
 }
 // drag and drop end
@@ -293,7 +291,7 @@ const selectCharacter = () => {
     ElNotification({
       message: '请先选择剧本',
       type: 'warning',
-      duration: 2000,
+      duration: 2000
     })
     return
   }
@@ -322,7 +320,7 @@ const setSelectedCharacter = (character: Character) => {
     isAlive: isAlive.value,
     isZombie: false,
     team: character.team,
-    isGood: character.isGood!,
+    isGood: character.isGood!
   }
 
   playerStore.addPlayer(playerInfo)
@@ -333,7 +331,7 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
   let tag: Tag = {
     color: reminder.isGood ? 'primary' : 'danger',
     text: `${label}`,
-    image: reminder.logo,
+    image: reminder.logo
   }
 
   if (!tags.value?.includes(tag)) {
@@ -345,7 +343,7 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
 const setCustomSelectedReminder = (label: string) => {
   let tag: Tag = {
     color: 'success',
-    text: label,
+    text: label
   }
 
   if (!tags.value?.includes(tag)) {
@@ -404,7 +402,7 @@ const addReminderToList = () => {
     ElNotification({
       message: '请先选择剧本',
       type: 'warning',
-      duration: 2000,
+      duration: 2000
     })
     return
   }
@@ -418,7 +416,7 @@ watch(
   () => playerStore.nightOrderIndex,
   () => {
     isCurrentPlayerInOrder.value = playerStore.nightOrderIndex === index
-  },
+  }
 )
 
 // reset player info
@@ -428,7 +426,7 @@ watch(
     if (newLength == 0 && oldLength > 0) {
       clearPlayerInfo()
     }
-  },
+  }
 )
 
 const clearPlayerInfo = () => {
@@ -457,7 +455,7 @@ const restorePlayerInfo = () => {
 }
 
 defineExpose({
-  restorePlayerInfo,
+  restorePlayerInfo
 })
 </script>
 

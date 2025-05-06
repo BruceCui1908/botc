@@ -10,7 +10,7 @@
       />
 
       <div class="action-list">
-        <v-speed-dial location="top center" transition="fade-transition">
+        <v-speed-dial :z-index="zIndex" location="top center" transition="fade-transition">
           <template v-slot:activator="{ props: activatorProps }">
             <v-fab
               v-bind="activatorProps"
@@ -82,6 +82,7 @@ const cacheStore = useCacheStore()
 
 const showTimeline = ref<boolean>(false)
 const showNightOrder = ref<boolean>(true)
+const zIndex = ref<number>(4000)
 
 const playerRefs = ref([])
 
@@ -97,7 +98,16 @@ watch(
   () => progressStore.label,
   () => {
     displayLabel(progressStore.label)
-  },
+  }
+)
+
+watch(
+  () => settingStore.maxIndex,
+  (maxIndex: number) => {
+    if (maxIndex > zIndex.value) {
+      zIndex.value = maxIndex
+    }
+  }
 )
 
 const enterTown = () => {
@@ -147,7 +157,7 @@ const displayLabel = (label: string) => {
     message: label,
     type: 'success',
     plain: true,
-    duration: 3000,
+    duration: 3000
   })
 }
 
@@ -158,7 +168,7 @@ const textStyleObj = computed<CSSProperties>(() => ({
   lineHeight: '1',
   transform: 'translate(0,-50%)',
   whiteSpace: 'nowrap',
-  left: '-180%',
+  left: '-180%'
 }))
 </script>
 

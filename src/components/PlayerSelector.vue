@@ -29,7 +29,7 @@
       <el-button type="primary" :icon="Refresh" circle @click="dialogVisible = true" />
     </el-row>
 
-    <el-dialog v-model="dialogVisible" title="重置小镇" width="20rem">
+    <el-dialog v-model="dialogVisible" title="重置小镇" width="20rem" :z-index="zIndex">
       <span>请问您是否想要重置小镇？</span>
       <template #footer>
         <div class="dialog-footer">
@@ -65,6 +65,7 @@ const dCount = ref<number>(0)
 const trCount = ref<number>(0)
 const isLocked = ref<boolean>(false)
 const dialogVisible = ref<boolean>(false)
+const zIndex = ref<number>(4000)
 
 watch(
   () => settingStore.PlayersCount,
@@ -75,7 +76,17 @@ watch(
     mCount.value = m
     dCount.value = d
     trCount.value = tr
-  },
+  }
+)
+
+// update max zIndex
+watch(
+  () => settingStore.maxIndex,
+  (maxIndex: number) => {
+    if (maxIndex > zIndex.value) {
+      zIndex.value = maxIndex
+    }
+  }
 )
 
 const handleChange = (value: number | undefined) => {
@@ -98,7 +109,7 @@ const clearCharacters = () => {
   ElMessage({
     message: '小镇已被重置',
     type: 'success',
-    duration: 1000,
+    duration: 1000
   })
 }
 
@@ -115,7 +126,7 @@ const refresh = () => {
   ElMessage({
     message: '小镇已被重置',
     type: 'success',
-    duration: 1000,
+    duration: 1000
   })
 }
 </script>

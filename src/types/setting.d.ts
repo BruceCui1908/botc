@@ -10,4 +10,5 @@ export interface Setting {
   evilColor: stirng
   isInTownMode: Boolean
   isUpdated: Boolean
+  maxIndex: number
 }

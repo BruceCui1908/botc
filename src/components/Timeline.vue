@@ -35,8 +35,8 @@ const progressStore = useProgressStore()
 const { show } = defineProps({
   show: {
     type: Boolean,
-    default: false,
-  },
+    default: false
+  }
 })
 
 const dialogVisible = ref<boolean>(show)
@@ -45,7 +45,7 @@ watch(
   () => show,
   () => {
     dialogVisible.value = true
-  },
+  }
 )
 </script>
 

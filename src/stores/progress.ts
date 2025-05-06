@@ -5,7 +5,7 @@ export const useProgressStore = defineStore('progressStore', {
   state: (): Progress => ({
     isGameOn: false,
     timeline: [],
-    label: '',
+    label: ''
   }),
 
   actions: {
@@ -20,7 +20,7 @@ export const useProgressStore = defineStore('progressStore', {
             isDay: false,
             note: '...',
             label: label,
-            isEditMode: false,
+            isEditMode: false
           }
 
           this.label = label
@@ -40,7 +40,7 @@ export const useProgressStore = defineStore('progressStore', {
         isDay: isDay,
         note: '...',
         label: label,
-        isEditMode: false,
+        isEditMode: false
       }
 
       this.timeline.push(dayNode)
@@ -50,6 +50,6 @@ export const useProgressStore = defineStore('progressStore', {
     reset(): void {
       this.timeline = []
       this.isGameOn = false
-    },
-  },
+    }
+  }
 })
