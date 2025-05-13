@@ -6,22 +6,26 @@
       direction="horizontal"
       size="x-small"
       density="compact"
+      line-inset="12"
       truncate-line="both"
+      line-color="black"
+      :line-thickness="1"
     >
       <v-timeline-item
         v-for="(item, index) in nightOrders"
         :key="index"
         :size="12"
-        class="timeline-item-wrapper font-weight-bold"
+        class="font-weight-bold"
         :dot-color="item.color"
-        @click="setNightOrder(item)"
       >
         <template v-slot:default>
-          <div class="title">
-            <span>{{ item.title }}</span>
-          </div>
-          <div class="label">
-            <span>{{ item.label }}</span>
+          <div class="timeline-item-wrapper" @click="setNightOrder(item, index)">
+            <div class="title">
+              <span>{{ item.title }}</span>
+            </div>
+            <div class="label">
+              <span>{{ item.label }}</span>
+            </div>
           </div>
         </template>
       </v-timeline-item>
@@ -34,7 +38,6 @@ import { ref, watch } from 'vue'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
 import type { Order } from '@/types/order'
-import { pl } from 'vuetify/locale'
 
 const playerStore = usePlayerStore()
 const progressStore = useProgressStore()
@@ -44,6 +47,7 @@ const otherNightOrders = ref<Order[]>([])
 const isInFirstNight = ref<boolean>(false)
 const isInOtherNight = ref<boolean>(false)
 const nightOrders = ref<Order[]>([])
+const selectedIndex = ref<Number>(-1)
 
 watch(
   () => [progressStore.timeline.length, playerStore.isUpdated],
@@ -127,10 +131,12 @@ const triggerFilterNightOrders = () => {
   }
 }
 
-const setNightOrder = (order: Order) => {
+const setNightOrder = (order: Order, index: Number) => {
   if (order.disabled) {
     return
   }
+
+  selectedIndex.value = index
   playerStore.setNightOrderIndex(order.index)
 }
 </script>

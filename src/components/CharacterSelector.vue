@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="showDialog" :title="title" width="21rem">
+  <el-dialog v-model="showDialog" :title="title" width="21rem" :z-index="zIndex">
     <el-scrollbar max-height="26rem" height="26rem">
       <el-divider content-position="left">镇民</el-divider>
 
@@ -65,16 +65,28 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { watch, ref } from 'vue'
 import { useScriptStore } from '@/stores/script'
+import { useSettingStore } from '@/stores/setting'
 import type { Character } from '@/types/script'
 
 const emit = defineEmits(['trigger-select'])
 
 const scriptStore = useScriptStore()
+const settingStore = useSettingStore()
 
 const showDialog = ref<boolean>(false)
 const title = ref<string>()
+const zIndex = ref<number>(4000)
+
+watch(
+  () => settingStore.maxIndex,
+  (maxIndex: number) => {
+    if (maxIndex > zIndex.value) {
+      zIndex.value = maxIndex
+    }
+  }
+)
 
 const toggleSelector = (playerIndex: number) => {
   showDialog.value = true

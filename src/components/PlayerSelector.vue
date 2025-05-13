@@ -48,7 +48,6 @@ import { useSettingStore } from '@/stores/setting'
 import { useScriptStore } from '@/stores/script'
 import { usePlayerStore } from '@/stores/player'
 import { useProgressStore } from '@/stores/progress'
-
 import { Refresh } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
@@ -79,7 +78,6 @@ watch(
   }
 )
 
-// update max zIndex
 watch(
   () => settingStore.maxIndex,
   (maxIndex: number) => {
