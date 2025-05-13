@@ -8,60 +8,30 @@
       </template>
 
       <div class="card-body" :style="directionObj">
-        <Token
-          :logo="logo"
-          :name="name"
-          :team="team"
-          :size="size"
-          :showLabel="false"
-          @click="selectCharacter"
-          :bgColor="bgColor"
-          :style="directionObj"
-          :isUpsideDown="isUpsideDown"
-          class="token-container"
-        />
+        <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
+          :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
 
         <el-scrollbar max-height="60px">
           <div class="label-container">
-            <el-tooltip :content="item.text" v-for="(item, index) in tags" :key="index">
-              <el-avatar
-                :src="item.image"
-                size="small"
-                :style="{
-                  background: 'transparent',
-                  border: '1px grey solid'
-                }"
-                @dblclick="removeTag(item)"
-              />
+            <el-tooltip :content="item.text" v-for="(item, index) in tags" :key="index"
+              :visible="settingStore.showReminders || selectedIndexArr.includes(index)">
+              <el-avatar :src="item.image" size="small" :style="{
+                background: 'transparent',
+                border: '1px grey solid'
+              }" @dblclick="removeTag(item)" @click="toggleTooltip(index)" />
             </el-tooltip>
           </div>
         </el-scrollbar>
       </div>
-      <el-button
-        :style="switchButtonStyleObj"
-        :icon="Switch"
-        size="small"
-        circle
-        @click="switchRow"
-      />
-      <el-button
-        :style="plusButtonStyleObj"
-        :icon="Plus"
-        size="small"
-        circle
-        @click="addReminderToList"
-      />
+      <el-button :style="switchButtonStyleObj" :icon="Switch" size="small" circle @click="switchRow" />
+      <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
     </el-card>
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
-  <ReminderSelector
-    ref="reminderSelectorRef"
-    @trigger-select="setSelectedReminder"
-    @trigger-custom-select="setCustomSelectedReminder"
-    @trigger-status-select="setPlayerStatus"
-    @trigger-alignment-select="setPlayerAlignment"
-  />
+  <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
+    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus"
+    @trigger-alignment-select="setPlayerAlignment" />
 </template>
 
 <script setup lang="ts">
@@ -135,7 +105,9 @@ const initialWrapperHeight = ref('')
 const isAlive = ref<boolean>(isPlayerAlive)
 const isZombie = ref<boolean>(isPlayerZombie)
 const isGood = ref<boolean>(isPlayerGood)
-const isCurrentPlayerInOrder = ref(false)
+const isCurrentPlayerInOrder = ref<boolean>(false)
+const selectedIndex = ref<number>(-1); // track the clicked item's index 
+const selectedIndexArr = ref<number[]>([])
 
 const settingStore = useSettingStore()
 const scriptStore = useScriptStore()
@@ -232,7 +204,7 @@ onMounted(() => {
       // call this function on every dragmove event
       move: dragMoveListener,
       // call this function on every dragend event
-      end(event) {}
+      end(event) { }
     }
   })
 })
@@ -392,6 +364,16 @@ const removeTag = (tag: Tag) => {
   tags.value.splice(tags.value.indexOf(tag), 1)
 }
 
+const toggleTooltip = (index: number) => {
+  selectedIndex.value = index
+
+  if (selectedIndexArr.value.includes(index)) {
+    selectedIndexArr.value = selectedIndexArr.value.filter(num => num !== index)
+  } else {
+    selectedIndexArr.value.push(index)
+  }
+}
+
 // toggle row and reverse
 const switchRow = () => {
   isRow.value = !isRow.value
@@ -428,6 +410,12 @@ watch(
     }
   }
 )
+
+watch(() => settingStore.showReminders, (newValue) => {
+  if (!newValue) {
+    selectedIndexArr.value = []
+  }
+})
 
 const clearPlayerInfo = () => {
   isAlive.value = true

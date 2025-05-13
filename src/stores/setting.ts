@@ -13,6 +13,7 @@ export const useSettingStore = defineStore('settingStore', {
     goodColor: '#409EFF',
     evilColor: '#D90606',
     isInTownMode: false,
+    showReminders: false,
     isUpdated: false,
     maxIndex: -1
   }),
@@ -27,6 +28,9 @@ export const useSettingStore = defineStore('settingStore', {
         state.demonCount,
         state.travellerCount
       ]
+    },
+    isShowingReminders(state): boolean {
+      return state.showReminders
     }
   },
 
@@ -81,6 +85,7 @@ export const useSettingStore = defineStore('settingStore', {
       this.minionCount = 0
       this.demonCount = 0
       this.travellerCount = 0
+      this.showReminders = false
       this.isLocked = false
       this.triggerUpdate()
     },
@@ -91,6 +96,10 @@ export const useSettingStore = defineStore('settingStore', {
 
     setMaxZIndex(index: number): void {
       this.maxIndex = index + 1
+    },
+
+    toggleDisplayReminders(): void {
+      this.showReminders = !this.showReminders
     },
 
     triggerUpdate(): void {

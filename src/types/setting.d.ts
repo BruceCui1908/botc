@@ -5,10 +5,11 @@ export interface Setting {
   minionCount: number
   demonCount: number
   travellerCount: number
-  isLocked: Boolean
+  isLocked: boolean
   goodColor: string
   evilColor: stirng
-  isInTownMode: Boolean
-  isUpdated: Boolean
+  isInTownMode: boolean
+  isUpdated: boolean
+  showReminders: boolean
   maxIndex: number
 }
