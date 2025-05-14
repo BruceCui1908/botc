@@ -5,7 +5,7 @@
       <Player
         v-for="(_, index) in settingStore.playersCount"
         :key="index"
-        :index="settingStore.playersCount - index"
+        :index="index + 1"
         :ref="(el) => setPlayerRef(el, index)"
       />
 
