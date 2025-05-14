@@ -1,23 +1,9 @@
 <template>
   <div class="night-order-container">
-    <v-timeline
-      align="center"
-      side="start"
-      direction="horizontal"
-      size="x-small"
-      density="compact"
-      line-inset="12"
-      truncate-line="both"
-      line-color="black"
-      :line-thickness="1"
-    >
-      <v-timeline-item
-        v-for="(item, index) in nightOrders"
-        :key="index"
-        :size="12"
-        class="font-weight-bold"
-        :dot-color="item.color"
-      >
+    <v-timeline align="center" side="start" direction="horizontal" size="x-small" density="compact" line-inset="12"
+      truncate-line="both" line-color="black" :line-thickness="1">
+      <v-timeline-item v-for="(item, index) in nightOrders" :key="index" :size="12" class="font-weight-bold"
+        :dot-color="item.color">
         <template v-slot:default>
           <div class="timeline-item-wrapper" @click="setNightOrder(item, index)">
             <div class="title">
@@ -71,8 +57,9 @@ watch(
 )
 
 const triggerFilterNightOrders = () => {
+  console.log('playerStore.players is ', playerStore.players)
   firstNightOrders.value = playerStore.players
-    .filter((item) => item?.firstNightOrder !== 0)
+    .filter((item) => item.firstNightOrder !== undefined && item.firstNightOrder !== 0)
     .sort((a, b) => a.firstNightOrder! - b.firstNightOrder!)
     .map((player) => {
       let order: Order = {
@@ -97,7 +84,7 @@ const triggerFilterNightOrders = () => {
     })
 
   otherNightOrders.value = playerStore.players
-    .filter((item) => item?.otherNightOrder !== 0)
+    .filter((item) => item.otherNightOrder !== undefined && item.otherNightOrder !== 0)
     .sort((a, b) => a.otherNightOrder! - b.otherNightOrder!)
     .map((player) => {
       let order: Order = {
