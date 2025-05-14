@@ -2,73 +2,33 @@
   <el-dialog v-model="showDialog" title="请选择角色技能标记" width="21rem" :z-index="zIndex">
     <el-scrollbar max-height="26rem" height="26rem">
       <el-divider content-position="left">镇民</el-divider>
-      <el-row
-        :style="rowStyleObj"
-        v-for="(reminder, index) in playerStore.TownsfolkReminders"
-        :key="index"
-      >
-        <el-tag
-          v-for="(item, index) in reminder.text"
-          @click="selectReminder(reminder, item)"
-          :key="index"
-          type="primary"
-          effect="dark"
-          round
-        >
+      <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.TownsfolkReminders" :key="index">
+        <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+          type="primary" effect="dark" round>
           {{ reminder.name }}({{ item }})
         </el-tag>
       </el-row>
 
       <el-divider content-position="left">外来者</el-divider>
-      <el-row
-        :style="rowStyleObj"
-        v-for="(reminder, index) in playerStore.OutsiderReminders"
-        :key="index"
-      >
-        <el-tag
-          v-for="(item, index) in reminder.text"
-          @click="selectReminder(reminder, item)"
-          :key="index"
-          type="primary"
-          effect="dark"
-          round
-        >
+      <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.OutsiderReminders" :key="index">
+        <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+          type="primary" effect="dark" round>
           {{ reminder.name }}({{ item }})
         </el-tag>
       </el-row>
 
       <el-divider content-position="left">爪牙</el-divider>
-      <el-row
-        :style="rowStyleObj"
-        v-for="(reminder, index) in playerStore.MinionReminders"
-        :key="index"
-      >
-        <el-tag
-          v-for="(item, index) in reminder.text"
-          @click="selectReminder(reminder, item)"
-          :key="index"
-          type="danger"
-          effect="dark"
-          round
-        >
+      <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.MinionReminders" :key="index">
+        <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+          type="danger" effect="dark" round>
           {{ reminder.name }}({{ item }})
         </el-tag>
       </el-row>
 
       <el-divider content-position="left">恶魔</el-divider>
-      <el-row
-        :style="rowStyleObj"
-        v-for="(reminder, index) in playerStore.DemonReminders"
-        :key="index"
-      >
-        <el-tag
-          v-for="(item, index) in reminder.text"
-          @click="selectReminder(reminder, item)"
-          :key="index"
-          type="danger"
-          effect="dark"
-          round
-        >
+      <el-row :style="rowStyleObj" v-for="(reminder, index) in playerStore.DemonReminders" :key="index">
+        <el-tag v-for="(item, index) in reminder.text" @click="selectReminder(reminder, item)" :key="index"
+          type="danger" effect="dark" round>
           {{ reminder.name }}({{ item }})
         </el-tag>
       </el-row>
@@ -76,29 +36,27 @@
       <el-divider content-position="left">阵营</el-divider>
       <el-row :style="customTagRowStyleObj">
         <el-tag v-for="(item, index) in alignmentList" @click="selectAlignment(item)" :key="index">
-          {{ item }}</el-tag
-        >
+          {{ item }}</el-tag>
       </el-row>
 
       <el-divider content-position="left">状态</el-divider>
       <el-row :style="customTagRowStyleObj">
         <el-tag v-for="(item, index) in statusList" @click="selectStatus(item)" :key="index">
-          {{ item }}</el-tag
-        >
+          {{ item }}</el-tag>
       </el-row>
 
-      <!-- <el-divider content-position="left">自定义标签</el-divider>
-            <el-row :style="customTagRowStyleObj">
-                <el-tag v-for="tag in dynamicTags" :key="tag" closable :disable-transitions="false"
-                    @click="selectCustomReminder(tag)" class="custom-tag">
-                    {{ tag }}
-                </el-tag>
-                <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" size="small"
-                    @keyup.enter="handleInputConfirm" @blur="handleInputConfirm" />
-                <el-button v-else size="small" @click="showInput">
-                    + New Tag
-                </el-button>
-            </el-row> -->
+      <el-divider content-position="left">自定义标签</el-divider>
+      <el-row :style="customTagRowStyleObj">
+        <el-tag v-for="tag in dynamicTags" :key="tag" closable :disable-transitions="false"
+          @click="selectCustomReminder(tag)" class="custom-tag">
+          {{ tag }}
+        </el-tag>
+        <el-input v-if="inputVisible" ref="InputRef" v-model="inputValue" size="small" @keyup.enter="handleInputConfirm"
+          @blur="handleInputConfirm" />
+        <el-button v-else size="small" @click="showInput">
+          + New Tag
+        </el-button>
+      </el-row>
     </el-scrollbar>
   </el-dialog>
 </template>

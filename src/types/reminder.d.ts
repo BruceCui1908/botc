@@ -10,4 +10,5 @@ export interface Tag {
   color: string
   image?: string
   text: string
+  isCustom: boolean
 }
