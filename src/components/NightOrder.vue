@@ -1,13 +1,29 @@
 <template>
   <div class="night-order-container">
     <el-scrollbar>
-      <v-timeline align="center" side="start" direction="horizontal" size="x-small" line-inset="12" truncate-line="both"
-        line-color="black" :line-thickness="1">
-        <v-timeline-item v-for="(item, index) in nightOrders" :key="index" :size="12" class="font-weight-bold"
-          :dot-color="selectedIndex === index ? '#67C23A' : item.color">
+      <v-timeline
+        align="center"
+        side="start"
+        direction="horizontal"
+        size="x-small"
+        line-inset="12"
+        truncate-line="both"
+        line-color="black"
+        :line-thickness="1"
+      >
+        <v-timeline-item
+          v-for="(item, index) in nightOrders"
+          :key="index"
+          :size="12"
+          class="font-weight-bold"
+          :dot-color="selectedIndex === index ? '#67C23A' : item.color"
+        >
           <template v-slot:default>
-            <div class="timeline-item-wrapper" :style="{ color: selectedIndex === index ? '#67C23A' : '#303133' }"
-              @click="setNightOrder(item, index)">
+            <div
+              class="timeline-item-wrapper"
+              :style="{ color: selectedIndex === index ? '#67C23A' : '#303133' }"
+              @click="setNightOrder(item, index)"
+            >
               <div class="title">
                 <span>{{ item.title }}</span>
               </div>
@@ -19,7 +35,6 @@
         </v-timeline-item>
       </v-timeline>
     </el-scrollbar>
-
   </div>
 </template>
 
@@ -38,7 +53,6 @@ const isInFirstNight = ref<boolean>(false)
 const isInOtherNight = ref<boolean>(false)
 const nightOrders = ref<Order[]>([])
 const selectedIndex = ref<Number>(-1)
-
 
 watch(
   () => [progressStore.timeline.length, playerStore.isUpdated],
