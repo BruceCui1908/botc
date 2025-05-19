@@ -25,6 +25,7 @@
           <div class="label-container">
             <el-tooltip
               :content="item.text"
+              style="z-index: 9999"
               v-for="(item, index) in tags"
               :key="index"
               :visible="settingStore.showReminders || selectedIndexArr.includes(index)"
