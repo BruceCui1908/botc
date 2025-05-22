@@ -1,15 +1,22 @@
 <template>
   <div class="token-wrapper">
-    <el-avatar class="token-avatar" :size="size" :src="logo" :style="tokenStyleObj" v-tippy="{
-      content: name,
-      arrow: true,
-      onShow: () => showLabel
-    }" />
+    <el-avatar
+      class="token-avatar"
+      :class="{ 'is-reminder': isReminder }"
+      :size="size"
+      :src="logo"
+      :style="tokenStyleObj"
+      v-tippy="{
+        content: name,
+        arrow: true,
+        onShow: () => showLabel
+      }"
+    />
 
     <div v-if="isReminder" class="text-wrapper">
       <svg viewBox="0 0 150 150" class="name">
         <path d="M 13 75 C 13 160, 138 160, 138 75" id="curve" fill="transparent" />
-        <text width="150" x="66.6%" text-anchor="middle" class="label mozilla" font-size="120%">
+        <text width="150" x="66.6%" text-anchor="middle" class="label mozilla" font-size="110%">
           <textPath xlink:href="#curve">
             {{ name }}
           </textPath>
@@ -23,6 +30,7 @@
 import { computed } from 'vue'
 import type { CSSProperties } from 'vue'
 import characterBackgroundImage from '@/assets/life.png'
+import { useSettingStore } from '@/stores/setting'
 
 const { logo, team, name, size, showLabel, bgColor, isUpsideDown, isReminder, isPreviewReminder } =
   defineProps({
@@ -52,6 +60,8 @@ const { logo, team, name, size, showLabel, bgColor, isUpsideDown, isReminder, is
     }
   })
 
+const settingStore = useSettingStore()
+
 const tokenStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {}
 
@@ -67,6 +77,16 @@ const tokenStyleObj = computed<CSSProperties>(() => {
   } else {
     style.transform = 'rotate(0deg)'
   }
+
+  // if (isReminder && team) {
+  //   if (settingStore.isTeamGood(team)) {
+  //     style.backgroundColor = settingStore.goodColor
+  //   }
+
+  //   if (settingStore.isTeamEvil(team)) {
+  //     style.backgroundColor = settingStore.evilColor
+  //   }
+  // }
 
   return style
 })
@@ -93,6 +113,18 @@ const tokenStyleObj = computed<CSSProperties>(() => {
       width: 100%;
       height: 100%;
       font-size: 1.5rem; // svg fonts are relative to document font size
+
+      .label {
+        fill: black;
+      }
+    }
+  }
+}
+
+:deep(.el-avatar) {
+  &.is-reminder {
+    img {
+      transform: translateY(-0.1rem);
     }
   }
 }

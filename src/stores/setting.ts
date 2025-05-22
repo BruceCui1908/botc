@@ -18,7 +18,16 @@ export const useSettingStore = defineStore('settingStore', {
     maxIndex: -1,
 
     // for setting
-    showTooltipReminder: false
+    showTooltipReminder: false,
+    fabledColor: '#ffe91f',
+    townsfolkColor: '#1f65ff',
+    outsiderColor: '#46d5ff',
+    minionColor: '#ff6900',
+    demonColor: '#ce0100',
+    travelerColor: '#cc04ff',
+
+    goodAlignment: ['townsfolk', 'outsider'],
+    evilAlignment: ['minion', 'demon']
   }),
 
   getters: {
@@ -75,6 +84,14 @@ export const useSettingStore = defineStore('settingStore', {
       }
 
       this.outsiderCount = count - this.townsfolkCount - this.minionCount - this.demonCount
+    },
+
+    isTeamGood(team: string): boolean {
+      return this.goodAlignment.some((align) => align.toLowerCase() === team.toLowerCase())
+    },
+
+    isTeamEvil(team: string): boolean {
+      return this.evilAlignment.some((align) => align.toLowerCase() === team.toLowerCase())
     },
 
     lock(isLocked: boolean) {

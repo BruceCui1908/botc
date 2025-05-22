@@ -8,36 +8,100 @@
       </template>
 
       <div class="card-body" :style="directionObj">
-        <Token :logo="logo" :name="name" :team="team" :size="size" :showLabel="false" @click="selectCharacter"
-          :bgColor="bgColor" :style="directionObj" :isUpsideDown="isUpsideDown" class="token-container" />
+        <Token
+          :logo="logo"
+          :name="name"
+          :team="team"
+          :size="size"
+          :showLabel="false"
+          @click="selectCharacter"
+          :bgColor="bgColor"
+          :style="directionObj"
+          :isUpsideDown="isUpsideDown"
+          class="token-container"
+        />
 
         <div class="label-container">
-          <Token v-if="!settingStore.showTooltipReminder" style="z-index: 9999" v-for="(item, index) in tags"
-            :key="index" :logo="item.image" :name="item.text" @dblclick="removeTag(item)" :is-reminder="true"
-            :size="32" />
+          <template
+            v-if="!settingStore.showTooltipReminder"
+            v-for="(item, index) in tags"
+            :key="index"
+          >
+            <Token
+              v-if="!item.isCustom"
+              style="z-index: 9999"
+              :logo="item.image"
+              :team="item.team"
+              :name="item.text"
+              @dblclick="removeTag(item)"
+              :is-reminder="true"
+              :size="32"
+            />
 
-          <el-tooltip v-else :content="item.text" style="z-index: 9999" v-for="(item, index) in tags"
-            :key="`tooltip` + index" :visible="settingStore.showReminders || selectedIndexArr.includes(index)">
-            <el-avatar v-if="!item.isCustom" :src="item.image" size="small" :style="{
-              background: 'transparent',
-              border: '1px grey solid'
-            }" @dblclick="removeTag(item)" @click="toggleTooltip(index)" />
+            <el-tooltip v-else :content="item.text" style="z-index: 9999">
+              <el-icon color="#409efc" :size="26" @dblclick="removeTag(item)">
+                <WarningFilled />
+              </el-icon>
+            </el-tooltip>
+          </template>
 
-            <el-icon color="#409efc" :size="26" v-else @dblclick="removeTag(item)" @click="toggleTooltip(index)">
+          <el-tooltip
+            v-else
+            :content="item.text"
+            style="z-index: 9999"
+            v-for="(item, index) in tags"
+            :key="`tooltip` + index"
+            :visible="settingStore.showReminders || selectedIndexArr.includes(index)"
+          >
+            <el-avatar
+              v-if="!item.isCustom"
+              :src="item.image"
+              size="small"
+              :style="{
+                background: 'transparent',
+                border: '1px grey solid'
+              }"
+              @dblclick="removeTag(item)"
+              @click="toggleTooltip(index)"
+            />
+
+            <el-icon
+              color="#409efc"
+              :size="26"
+              v-else
+              @dblclick="removeTag(item)"
+              @click="toggleTooltip(index)"
+            >
               <WarningFilled />
             </el-icon>
           </el-tooltip>
         </div>
       </div>
-      <el-button :style="switchButtonStyleObj" :icon="Switch" size="small" circle @click="switchRow" />
-      <el-button :style="plusButtonStyleObj" :icon="Plus" size="small" circle @click="addReminderToList" />
+      <el-button
+        :style="switchButtonStyleObj"
+        :icon="Switch"
+        size="small"
+        circle
+        @click="switchRow"
+      />
+      <el-button
+        :style="plusButtonStyleObj"
+        :icon="Plus"
+        size="small"
+        circle
+        @click="addReminderToList"
+      />
     </el-card>
   </div>
 
   <CharacterSelector ref="characterSelectorRef" @trigger-select="setSelectedCharacter" />
-  <ReminderSelector ref="reminderSelectorRef" @trigger-select="setSelectedReminder"
-    @trigger-custom-select="setCustomSelectedReminder" @trigger-status-select="setPlayerStatus"
-    @trigger-alignment-select="setPlayerAlignment" />
+  <ReminderSelector
+    ref="reminderSelectorRef"
+    @trigger-select="setSelectedReminder"
+    @trigger-custom-select="setCustomSelectedReminder"
+    @trigger-status-select="setPlayerStatus"
+    @trigger-alignment-select="setPlayerAlignment"
+  />
 </template>
 
 <script setup lang="ts">
@@ -210,7 +274,7 @@ onMounted(() => {
       // call this function on every dragmove event
       move: dragMoveListener,
       // call this function on every dragend event
-      end(event) { }
+      end(event) {}
     }
   })
 })
@@ -310,7 +374,8 @@ const setSelectedReminder = (reminder: Reminder, label: string) => {
     color: reminder.isGood ? 'primary' : 'danger',
     text: `${label}`,
     image: reminder.logo,
-    isCustom: false
+    isCustom: false,
+    team: reminder.team
   }
 
   if (!tags.value?.includes(tag)) {
@@ -323,7 +388,8 @@ const setCustomSelectedReminder = (label: string) => {
   let tag: Tag = {
     color: 'success',
     text: label,
-    isCustom: true
+    isCustom: true,
+    team: ''
   }
 
   if (!tags.value?.includes(tag)) {
@@ -369,6 +435,7 @@ const setPlayerAlignment = (alignment: string) => {
 }
 
 const removeTag = (tag: Tag) => {
+  console.log('tag is ', tag)
   tags.value.splice(tags.value.indexOf(tag), 1)
 }
 

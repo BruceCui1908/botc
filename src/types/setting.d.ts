@@ -13,4 +13,12 @@ export interface Setting {
   showReminders: boolean
   maxIndex: number
   showTooltipReminder: boolean
+  fabledColor: string
+  townsfolkColor: string
+  outsiderColor: string
+  minionColor: string
+  demonColor: string
+  travelerColor: string
+  goodAlignment: Array<string>
+  evilAlignment: Array<string>
 }

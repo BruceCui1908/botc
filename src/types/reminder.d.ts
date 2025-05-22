@@ -11,4 +11,5 @@ export interface Tag {
   image?: string
   text: string
   isCustom: boolean
+  team: string
 }
