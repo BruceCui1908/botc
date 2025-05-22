@@ -94,7 +94,7 @@ const tokenStyleObj = computed<CSSProperties>(() => {
 
 <style lang="scss" scoped>
 .token-wrapper {
-  display: inline-block;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;

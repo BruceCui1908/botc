@@ -21,61 +21,63 @@
           class="token-container"
         />
 
-        <div class="label-container">
-          <template
-            v-if="!settingStore.showTooltipReminder"
-            v-for="(item, index) in tags"
-            :key="index"
-          >
-            <Token
-              v-if="!item.isCustom"
-              style="z-index: 9999"
-              :logo="item.image"
-              :team="item.team"
-              :name="item.text"
-              @dblclick="removeTag(item)"
-              :is-reminder="true"
-              :size="32"
-            />
+        <el-scrollbar height="3.75rem">
+          <div class="label-container">
+            <template
+              v-if="!settingStore.showTooltipReminder"
+              v-for="(item, index) in tags"
+              :key="index"
+            >
+              <Token
+                v-if="!item.isCustom"
+                style="z-index: 9999"
+                :logo="item.image"
+                :team="item.team"
+                :name="item.text"
+                @dblclick="removeTag(item)"
+                :is-reminder="true"
+                :size="32"
+              />
 
-            <el-tooltip v-else :content="item.text" style="z-index: 9999">
-              <el-icon color="#409efc" :size="26" @dblclick="removeTag(item)">
+              <el-tooltip v-else :content="item.text" style="z-index: 9999">
+                <el-icon color="#409efc" :size="26" @dblclick="removeTag(item)">
+                  <WarningFilled />
+                </el-icon>
+              </el-tooltip>
+            </template>
+
+            <el-tooltip
+              v-else
+              :content="item.text"
+              style="z-index: 9999"
+              v-for="(item, index) in tags"
+              :key="`tooltip` + index"
+              :visible="settingStore.showReminders || selectedIndexArr.includes(index)"
+            >
+              <el-avatar
+                v-if="!item.isCustom"
+                :src="item.image"
+                size="small"
+                :style="{
+                  background: 'transparent',
+                  border: '1px grey solid'
+                }"
+                @dblclick="removeTag(item)"
+                @click="toggleTooltip(index)"
+              />
+
+              <el-icon
+                color="#409efc"
+                :size="26"
+                v-else
+                @dblclick="removeTag(item)"
+                @click="toggleTooltip(index)"
+              >
                 <WarningFilled />
               </el-icon>
             </el-tooltip>
-          </template>
-
-          <el-tooltip
-            v-else
-            :content="item.text"
-            style="z-index: 9999"
-            v-for="(item, index) in tags"
-            :key="`tooltip` + index"
-            :visible="settingStore.showReminders || selectedIndexArr.includes(index)"
-          >
-            <el-avatar
-              v-if="!item.isCustom"
-              :src="item.image"
-              size="small"
-              :style="{
-                background: 'transparent',
-                border: '1px grey solid'
-              }"
-              @dblclick="removeTag(item)"
-              @click="toggleTooltip(index)"
-            />
-
-            <el-icon
-              color="#409efc"
-              :size="26"
-              v-else
-              @dblclick="removeTag(item)"
-              @click="toggleTooltip(index)"
-            >
-              <WarningFilled />
-            </el-icon>
-          </el-tooltip>
-        </div>
+          </div>
+        </el-scrollbar>
       </div>
       <el-button
         :style="switchButtonStyleObj"
@@ -435,7 +437,6 @@ const setPlayerAlignment = (alignment: string) => {
 }
 
 const removeTag = (tag: Tag) => {
-  console.log('tag is ', tag)
   tags.value.splice(tags.value.indexOf(tag), 1)
 }
 
@@ -551,7 +552,7 @@ defineExpose({
     justify-content: space-between;
 
     .label-container {
-      height: 60px;
+      height: 100%;
       width: 3rem;
       display: flex;
       justify-content: center;
@@ -559,15 +560,6 @@ defineExpose({
       flex-direction: column;
       padding: 0.1rem;
       gap: 0.1rem;
-
-      // hide scroller
-      overflow: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
     }
   }
 }
