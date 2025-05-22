@@ -15,6 +15,7 @@
             :team="token.team"
             :size="tokenSize"
             :name="token.name"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>
@@ -27,6 +28,7 @@
             :team="token.team"
             :name="token.name"
             :size="tokenSize"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>
@@ -39,6 +41,7 @@
             :team="token.team"
             :name="token.name"
             :size="tokenSize"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>
@@ -51,6 +54,7 @@
             :team="token.team"
             :name="token.name"
             :size="tokenSize"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>
@@ -64,6 +68,7 @@
             :team="token.team"
             :name="token.name"
             :size="tokenSize / 2"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>
@@ -77,6 +82,7 @@
             :team="token.team"
             :name="token.name"
             :size="tokenSize / 2"
+            :isPreviewReminder="true"
           />
         </el-row>
       </el-descriptions-item>

@@ -15,7 +15,10 @@ export const useSettingStore = defineStore('settingStore', {
     isInTownMode: false,
     showReminders: false,
     isUpdated: false,
-    maxIndex: -1
+    maxIndex: -1,
+
+    // for setting
+    showTooltipReminder: false
   }),
 
   getters: {

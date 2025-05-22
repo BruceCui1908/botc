@@ -12,4 +12,5 @@ export interface Setting {
   isUpdated: boolean
   showReminders: boolean
   maxIndex: number
+  showTooltipReminder: boolean
 }
