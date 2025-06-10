@@ -1,11 +1,17 @@
 <template>
   <div class="token-wrapper">
-    <el-avatar class="token-avatar" :class="{ 'is-reminder': isReminder }" :size="size" :src="logo"
-      :style="tokenStyleObj" v-tippy="{
+    <el-avatar
+      class="token-avatar"
+      :class="{ 'is-reminder': isReminder }"
+      :size="size"
+      :src="logo"
+      :style="tokenStyleObj"
+      v-tippy="{
         content: name,
         arrow: true,
         onShow: () => showLabel
-      }" />
+      }"
+    />
 
     <div v-if="isReminder" class="text-wrapper">
       <svg viewBox="0 0 150 150" class="name">

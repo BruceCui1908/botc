@@ -79,7 +79,6 @@ export const usePlayerStore = defineStore('playerStore', {
         }
       }
 
-
       this.triggerUpdate()
     },
 
