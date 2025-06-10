@@ -2,62 +2,37 @@
   <el-scrollbar>
     <NightOrder v-show="showNightOrder" />
     <div class="town-container">
-      <Player
-        v-for="(_, index) in settingStore.playersCount"
-        :key="index"
-        :index="index + 1"
-        :ref="(el) => setPlayerRef(el, index)"
-      />
+      <Player v-for="(_, index) in settingStore.playersCount" :key="index" :index="index + 1"
+        :ref="(el) => setPlayerRef(el, index)" />
 
       <div class="action-list">
         <v-speed-dial :z-index="zIndex" location="top center" transition="fade-transition">
           <template v-slot:activator="{ props: activatorProps }">
-            <v-fab
-              v-bind="activatorProps"
-              size="large"
-              density="comfortable"
-              icon="mdi-cog"
-              color="primary"
-            ></v-fab>
+            <v-fab v-bind="activatorProps" size="large" density="comfortable" icon="mdi-cog" color="primary"></v-fab>
           </template>
 
           <div key="7" style="position: relative">
-            <v-btn prepend-icon="mdi-content-save-minus-outline" @click="restore" min-width="6rem"
-              >恢复</v-btn
-            >
+            <v-btn prepend-icon="mdi-content-save-minus-outline" @click="restore" min-width="6rem">恢复</v-btn>
           </div>
 
           <div key="6" style="position: relative">
-            <v-btn prepend-icon="mdi-content-save-plus-outline" @click="save" min-width="6rem"
-              >保存</v-btn
-            >
+            <v-btn prepend-icon="mdi-content-save-plus-outline" @click="save" min-width="6rem">保存</v-btn>
           </div>
 
           <div v-if="settingStore.showTooltipReminder" key="5" style="position: relative">
-            <v-btn prepend-icon="mdi-cards-club" @click="toggleReminder" min-width="6rem"
-              >切换标记</v-btn
-            >
+            <v-btn prepend-icon="mdi-cards-club" @click="toggleReminder" min-width="6rem">切换标记</v-btn>
           </div>
 
           <div key="4" style="position: relative">
-            <v-btn
-              prepend-icon="mdi-order-numeric-ascending"
-              @click="toggleNightOrder"
-              min-width="6rem"
-              >行动顺序</v-btn
-            >
+            <v-btn prepend-icon="mdi-order-numeric-ascending" @click="toggleNightOrder" min-width="6rem">行动顺序</v-btn>
           </div>
 
           <div key="3" style="position: relative">
-            <v-btn prepend-icon="mdi-timeline-clock" @click="toggleTimeline" min-width="6rem"
-              >时间线</v-btn
-            >
+            <v-btn prepend-icon="mdi-timeline-clock" @click="toggleTimeline" min-width="6rem">时间线</v-btn>
           </div>
 
           <div key="2" style="position: relative">
-            <v-btn prepend-icon="mdi-google-play" @click="startGame" min-width="6rem"
-              >推进游戏</v-btn
-            >
+            <v-btn prepend-icon="mdi-google-play" @click="startGame" min-width="6rem">推进游戏</v-btn>
           </div>
 
           <div key="1" style="position: relative">
@@ -65,9 +40,7 @@
           </div>
 
           <div key="0" style="position: relative">
-            <v-btn prepend-icon="mdi-all-inclusive" @click="enterTown" min-width="6rem"
-              >进入小镇</v-btn
-            >
+            <v-btn prepend-icon="mdi-all-inclusive" @click="enterTown" min-width="6rem">进入小镇</v-btn>
           </div>
         </v-speed-dial>
       </div>

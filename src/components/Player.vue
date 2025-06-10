@@ -14,18 +14,18 @@
         <el-scrollbar height="3.75rem">
           <div class="label-container">
             <template v-if="!settingStore.showTooltipReminder" v-for="(item, index) in tags" :key="index">
-              <Token v-if="!item.isCustom" style="z-index: 9999" :logo="item.image" :team="item.team" :name="item.text"
+              <Token v-if="!item.isCustom" :logo="item.image" :team="item.team" :name="item.text"
                 @dblclick="removeTag(item)" :is-reminder="true" :size="32" />
 
-              <el-tooltip v-else :content="item.text" style="z-index: 9999">
+              <el-tooltip v-else :content="item.text">
                 <el-icon color="#409efc" :size="26" @dblclick="removeTag(item)">
                   <WarningFilled />
                 </el-icon>
               </el-tooltip>
             </template>
 
-            <el-tooltip v-else :content="item.text" style="z-index: 9999" v-for="(item, index) in tags"
-              :key="`tooltip` + index" :visible="settingStore.showReminders || selectedIndexArr.includes(index)">
+            <el-tooltip v-else :content="item.text" v-for="(item, index) in tags" :key="`tooltip` + index"
+              :visible="settingStore.showReminders || selectedIndexArr.includes(index)">
               <el-avatar v-if="!item.isCustom" :src="item.image" size="small" :style="{
                 background: 'transparent',
                 border: '1px grey solid'

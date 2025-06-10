@@ -1,17 +1,11 @@
 <template>
   <div class="token-wrapper">
-    <el-avatar
-      class="token-avatar"
-      :class="{ 'is-reminder': isReminder }"
-      :size="size"
-      :src="logo"
-      :style="tokenStyleObj"
-      v-tippy="{
+    <el-avatar class="token-avatar" :class="{ 'is-reminder': isReminder }" :size="size" :src="logo"
+      :style="tokenStyleObj" v-tippy="{
         content: name,
         arrow: true,
         onShow: () => showLabel
-      }"
-    />
+      }" />
 
     <div v-if="isReminder" class="text-wrapper">
       <svg viewBox="0 0 150 150" class="name">
@@ -66,8 +60,9 @@ const tokenStyleObj = computed<CSSProperties>(() => {
   const style: Record<string, string> = {}
 
   if (!isPreviewReminder && !isReminder) {
-    style.background = `url(${characterBackgroundImage}) center center`
-    style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)'
+    // style.background = `url(${characterBackgroundImage}) center center`
+    // style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.5)'
+    style.background = bgColor
   } else {
     style.backgroundColor = bgColor
   }
@@ -78,15 +73,15 @@ const tokenStyleObj = computed<CSSProperties>(() => {
     style.transform = 'rotate(0deg)'
   }
 
-  // if (isReminder && team) {
-  //   if (settingStore.isTeamGood(team)) {
-  //     style.backgroundColor = settingStore.goodColor
-  //   }
+  if (isReminder && team) {
+    if (settingStore.isTeamGood(team)) {
+      style.backgroundColor = settingStore.goodColor
+    }
 
-  //   if (settingStore.isTeamEvil(team)) {
-  //     style.backgroundColor = settingStore.evilColor
-  //   }
-  // }
+    if (settingStore.isTeamEvil(team)) {
+      style.backgroundColor = settingStore.evilColor
+    }
+  }
 
   return style
 })
