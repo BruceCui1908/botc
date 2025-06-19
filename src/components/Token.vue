@@ -80,13 +80,13 @@ const tokenStyleObj = computed<CSSProperties>(() => {
   }
 
   if (isReminder && team) {
-    if (settingStore.isTeamGood(team)) {
-      style.backgroundColor = settingStore.goodColor
-    }
-
-    if (settingStore.isTeamEvil(team)) {
-      style.backgroundColor = settingStore.evilColor
-    }
+    // color is bad for skill reminders
+    // if (settingStore.isTeamGood(team)) {
+    //   style.backgroundColor = settingStore.goodColor
+    // }
+    // if (settingStore.isTeamEvil(team)) {
+    //   style.backgroundColor = settingStore.evilColor
+    // }
   }
 
   return style

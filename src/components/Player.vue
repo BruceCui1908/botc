@@ -29,8 +29,8 @@
               :key="index"
             >
               <Token
-                v-if="!item.isCustom"
                 :logo="item.image"
+                v-if="!item.isCustom"
                 :team="item.team"
                 :name="item.text"
                 @dblclick="removeTag(item)"
