@@ -10,6 +10,10 @@
           <v-fab v-bind="activatorProps" size="large" density="comfortable" icon="mdi-cog" color="primary"></v-fab>
         </template>
 
+        <div key="8" style="position: relative">
+          <v-btn prepend-icon="mdi-information-variant-box" @click="toggleInfoPanel" min-width="6rem">展示信息</v-btn>
+        </div>
+
         <div key="7" style="position: relative">
           <v-btn prepend-icon="mdi-content-save-minus-outline" @click="restore" min-width="6rem">恢复</v-btn>
         </div>
@@ -45,6 +49,7 @@
     </div>
 
     <Timeline :show="showTimeline" />
+    <InfoPanel :show="showInfoPanel" />
   </div>
 </template>
 
@@ -58,6 +63,7 @@ import { useProgressStore } from '@/stores/progress'
 import { useScriptStore } from '@/stores/script'
 import { useCacheStore } from '@/stores/cache'
 import { ElMessage } from 'element-plus'
+import InfoPanel from './InfoPanel.vue'
 
 const settingStore = useSettingStore()
 const progressStore = useProgressStore()
@@ -68,6 +74,7 @@ const showTimeline = ref<boolean>(false)
 const showNightOrder = ref<boolean>(true)
 const zIndex = ref<number>(4000)
 const playerRefs = ref([])
+const showInfoPanel = ref<boolean>(false)
 
 // @ts-ignore
 const setPlayerRef = (el, index) => {
@@ -137,6 +144,10 @@ const restore = async () => {
     // @ts-ignore
     player.restorePlayerInfo()
   })
+}
+
+const toggleInfoPanel = () => {
+  showInfoPanel.value = !showInfoPanel.value
 }
 
 const displayLabel = (label: string) => {
