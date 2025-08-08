@@ -71,8 +71,8 @@ const switchImage = (label: number) => {
 
 <style lang="scss" scoped>
 .info-wrapper {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
 }
 </style>
