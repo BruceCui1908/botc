@@ -5,8 +5,12 @@
 
       <el-row>
         <div class="icon-wrapper">
-          <el-tag class="icon-selector" v-for="folk in scriptStore.townsfolks" type="primary"
-            @click="selectCharactor(folk)">
+          <el-tag
+            class="icon-selector"
+            v-for="folk in scriptStore.townsfolks"
+            type="primary"
+            @click="selectCharactor(folk)"
+          >
             {{ folk.name }}
           </el-tag>
         </div>
@@ -16,8 +20,12 @@
 
       <el-row>
         <div class="icon-wrapper">
-          <el-tag class="icon-selector" v-for="outsider in scriptStore.outsiders" type="primary"
-            @click="selectCharactor(outsider)">
+          <el-tag
+            class="icon-selector"
+            v-for="outsider in scriptStore.outsiders"
+            type="primary"
+            @click="selectCharactor(outsider)"
+          >
             {{ outsider.name }}
           </el-tag>
         </div>
@@ -27,8 +35,12 @@
 
       <el-row>
         <div class="icon-wrapper">
-          <el-tag class="icon-selector" v-for="minion in scriptStore.minions" type="danger"
-            @click="selectCharactor(minion)">
+          <el-tag
+            class="icon-selector"
+            v-for="minion in scriptStore.minions"
+            type="danger"
+            @click="selectCharactor(minion)"
+          >
             {{ minion.name }}
           </el-tag>
         </div>
@@ -38,8 +50,12 @@
 
       <el-row>
         <div class="icon-wrapper">
-          <el-tag class="icon-selector" v-for="demon in scriptStore.demons" type="danger"
-            @click="selectCharactor(demon)">
+          <el-tag
+            class="icon-selector"
+            v-for="demon in scriptStore.demons"
+            type="danger"
+            @click="selectCharactor(demon)"
+          >
             {{ demon.name }}
           </el-tag>
         </div>

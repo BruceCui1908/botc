@@ -10,6 +10,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     CharacterSelector: typeof import('./src/components/CharacterSelector.vue')['default']
     CharacterToken: typeof import('./src/components/CharacterToken.vue')['default']
+    DemonInfo: typeof import('./src/components/DemonInfo.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
@@ -36,6 +37,7 @@ declare module 'vue' {
     ElUpload: typeof import('element-plus/es')['ElUpload']
     InfoPanel: typeof import('./src/components/InfoPanel.vue')['default']
     JsonUpload: typeof import('./src/components/JsonUpload.vue')['default']
+    MinionInfo: typeof import('./src/components/MinionInfo.vue')['default']
     NightOrder: typeof import('./src/components/NightOrder.vue')['default']
     Player: typeof import('./src/components/Player.vue')['default']
     PlayerSelector: typeof import('./src/components/PlayerSelector.vue')['default']

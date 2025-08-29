@@ -1,37 +1,83 @@
 <template>
   <NightOrder v-show="showNightOrder" />
   <div class="town-container">
-    <Player v-for="(_, index) in settingStore.playersCount" :key="index" :index="index + 1"
-      :ref="(el) => setPlayerRef(el, index)" />
+    <Player
+      v-for="(_, index) in settingStore.playersCount"
+      :key="index"
+      :index="index + 1"
+      :ref="(el) => setPlayerRef(el, index)"
+    />
 
     <div class="action-list">
       <v-speed-dial :z-index="zIndex" location="top center" transition="fade-transition">
         <template v-slot:activator="{ props: activatorProps }">
-          <v-fab v-bind="activatorProps" size="large" density="comfortable" icon="mdi-cog" color="primary"></v-fab>
+          <v-fab
+            v-bind="activatorProps"
+            size="large"
+            density="comfortable"
+            icon="mdi-cog"
+            color="primary"
+          ></v-fab>
         </template>
 
+        <div key="10" style="position: relative">
+          <v-btn
+            prepend-icon="mdi-information-variant-circle-outline"
+            @click="toggleMinionInfo"
+            min-width="6rem"
+            >爪牙信息</v-btn
+          >
+        </div>
+
+        <div key="9" style="position: relative">
+          <v-btn
+            prepend-icon="mdi-information-variant-circle"
+            @click="toggleDemonInfo"
+            min-width="6rem"
+            >恶魔信息</v-btn
+          >
+        </div>
+
         <div key="8" style="position: relative">
-          <v-btn prepend-icon="mdi-information-variant-box" @click="toggleInfoPanel" min-width="6rem">展示信息</v-btn>
+          <v-btn
+            prepend-icon="mdi-information-variant-box"
+            @click="toggleInfoPanel"
+            min-width="6rem"
+            >展示信息</v-btn
+          >
         </div>
 
         <div key="7" style="position: relative">
-          <v-btn prepend-icon="mdi-content-save-minus-outline" @click="restore" min-width="6rem">恢复</v-btn>
+          <v-btn prepend-icon="mdi-content-save-minus-outline" @click="restore" min-width="6rem"
+            >恢复</v-btn
+          >
         </div>
 
         <div key="6" style="position: relative">
-          <v-btn prepend-icon="mdi-content-save-plus-outline" @click="save" min-width="6rem">保存</v-btn>
+          <v-btn prepend-icon="mdi-content-save-plus-outline" @click="save" min-width="6rem"
+            >保存</v-btn
+          >
         </div>
 
         <div v-if="settingStore.showTooltipReminder" key="5" style="position: relative">
-          <v-btn prepend-icon="mdi-cards-club" @click="toggleReminder" min-width="6rem">切换标记</v-btn>
+          <v-btn prepend-icon="mdi-cards-club" @click="toggleReminder" min-width="6rem"
+            >切换标记</v-btn
+          >
         </div>
 
         <div key="4" style="position: relative">
-          <v-btn prepend-icon="mdi-order-numeric-ascending" @click="toggleNightOrder" min-width="6rem">行动顺序</v-btn>
+          <v-btn
+            prepend-icon="mdi-order-numeric-ascending"
+            @click="toggleNightOrder"
+            min-width="6rem"
+            >行动顺序</v-btn
+          >
         </div>
 
         <div key="3" style="position: relative">
-          <v-btn prepend-icon="mdi-timeline-clock" @click="toggleTimeline" min-width="6rem">时间线</v-btn>
+          <v-btn prepend-icon="mdi-timeline-clock" @click="toggleTimeline" min-width="6rem"
+            >时间线</v-btn
+          >
         </div>
 
         <div key="2" style="position: relative">
@@ -43,13 +89,17 @@
         </div>
 
         <div key="0" style="position: relative">
-          <v-btn prepend-icon="mdi-all-inclusive" @click="enterTown" min-width="6rem">进入小镇</v-btn>
+          <v-btn prepend-icon="mdi-all-inclusive" @click="enterTown" min-width="6rem"
+            >进入小镇</v-btn
+          >
         </div>
       </v-speed-dial>
     </div>
 
     <Timeline :show="showTimeline" />
     <InfoPanel :show="showInfoPanel" />
+    <DemonInfo :show="showDemonInfo" />
+    <MinionInfo :show="showMinionInfo" />
   </div>
 </template>
 
@@ -64,6 +114,8 @@ import { useScriptStore } from '@/stores/script'
 import { useCacheStore } from '@/stores/cache'
 import { ElMessage } from 'element-plus'
 import InfoPanel from './InfoPanel.vue'
+import DemonInfo from './DemonInfo.vue'
+import MinionInfo from './MinionInfo.vue'
 
 const settingStore = useSettingStore()
 const progressStore = useProgressStore()
@@ -75,6 +127,8 @@ const showNightOrder = ref<boolean>(true)
 const zIndex = ref<number>(4000)
 const playerRefs = ref([])
 const showInfoPanel = ref<boolean>(false)
+const showDemonInfo = ref<boolean>(false)
+const showMinionInfo = ref<boolean>(false)
 
 // @ts-ignore
 const setPlayerRef = (el, index) => {
@@ -148,6 +202,14 @@ const restore = async () => {
 
 const toggleInfoPanel = () => {
   showInfoPanel.value = !showInfoPanel.value
+}
+
+const toggleDemonInfo = () => {
+  showDemonInfo.value = !showDemonInfo.value
+}
+
+const toggleMinionInfo = () => {
+  showMinionInfo.value = !showMinionInfo.value
 }
 
 const displayLabel = (label: string) => {

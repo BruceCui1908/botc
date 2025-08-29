@@ -89,6 +89,18 @@ export const usePlayerStore = defineStore('playerStore', {
       this.triggerUpdate()
     },
 
+    filterSpecialPlayers(names: string[]): PlayerInfo[] {
+      return this.players.filter((p) => names.includes(p.character.name))
+    },
+
+    filterMinionPlayers(): PlayerInfo[] {
+      return this.players.filter((p) => p.team === 'minion')
+    },
+
+    filterDemonPlayers(): PlayerInfo[] {
+      return this.players.filter((p) => p.team === 'demon')
+    },
+
     findPlayer(index: number): PlayerInfo | undefined {
       return this.players.find((item) => item.index === index)
     },
