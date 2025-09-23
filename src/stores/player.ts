@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import type { Players, PlayerInfo } from '@/types/player'
 import type { Reminder } from '@/types/reminder'
+import type { Tag } from '@/types/reminder'
 
 export const usePlayerStore = defineStore('playerStore', {
   state: (): Players => ({
@@ -77,6 +78,15 @@ export const usePlayerStore = defineStore('playerStore', {
         if (isZombie != null) {
           this.players[i].isZombie = isZombie
         }
+      }
+
+      this.triggerUpdate()
+    },
+
+    updatePlayerTags(index: number, tags: Tag[]) {
+      const i = this.players.findIndex((item) => item.index === index)
+      if (i !== -1) {
+        this.players[i].tags = tags
       }
 
       this.triggerUpdate()

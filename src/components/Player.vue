@@ -359,25 +359,11 @@ const setSelectedCharacter = (character: Character) => {
     isAlive: isAlive.value,
     isZombie: false,
     team: character.team,
-    isGood: character.isGood!
+    isGood: character.isGood!,
+    tags: []
   }
 
   playerStore.addPlayer(playerInfo)
-}
-
-// set offical reminders old list version
-const setSelectedReminder = (reminder: Reminder, label: string) => {
-  let tag: Tag = {
-    color: reminder.isGood ? 'primary' : 'danger',
-    text: `${label}`,
-    image: reminder.logo,
-    isCustom: false,
-    team: reminder.team
-  }
-
-  if (!tags.value?.includes(tag)) {
-    tags.value?.push(tag)
-  }
 }
 
 // set custom reminders
@@ -392,6 +378,8 @@ const setCustomSelectedReminder = (label: string) => {
   if (!tags.value?.includes(tag)) {
     tags.value?.push(tag)
   }
+
+  playerStore.updatePlayerTags(index ?? -1, tags.value)
 }
 
 // set status
@@ -433,6 +421,7 @@ const setPlayerAlignment = (alignment: string) => {
 
 const removeTag = (tag: Tag) => {
   tags.value.splice(tags.value.indexOf(tag), 1)
+  playerStore.updatePlayerTags(index ?? -1, tags.value)
 }
 
 const toggleTooltip = (index: number) => {
@@ -457,6 +446,7 @@ const addReminderToList = () => {
       type: 'warning',
       duration: 2000
     })
+
     return
   }
 
@@ -514,6 +504,7 @@ const restorePlayerInfo = () => {
   logo.value = selectedPlayer.character.image
   name.value = selectedPlayer.character.name
   team.value = selectedPlayer.team
+  tags.value = selectedPlayer.tags
 }
 
 defineExpose({
