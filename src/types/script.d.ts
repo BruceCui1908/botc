@@ -32,6 +32,7 @@ export interface ScriptState {
   outsiders: Character[]
   minions: Character[]
   demons: Character[]
+  fabled: Character[]
   isGameOn: boolean
   firstNightOrders: Character[]
   otherNightOrders: Character[]
