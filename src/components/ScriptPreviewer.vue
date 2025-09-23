@@ -8,47 +8,96 @@
 
       <el-descriptions-item :label="townsfolkLabel" span="2">
         <el-row class="content-row">
-          <Token v-for="token in store.townsfolks" :key="token.id" :logo="token.image" :team="token.team"
-            :size="tokenSize" :name="token.name" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.townsfolks"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :size="tokenSize"
+            :name="token.name"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
       <el-descriptions-item :label="outsiderLabel" span="2">
         <el-row class="content-row">
-          <Token v-for="token in store.outsiders" :key="token.id" :logo="token.image" :team="token.team"
-            :name="token.name" :size="tokenSize" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.outsiders"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
       <el-descriptions-item :label="minionLabel" span="2">
         <el-row class="content-row">
-          <Token v-for="token in store.minions" :key="token.id" :logo="token.image" :team="token.team"
-            :name="token.name" :size="tokenSize" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.minions"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
       <el-descriptions-item :label="demonLabel" span="2">
         <el-row class="content-row">
-          <Token v-for="token in store.demons" :key="token.id" :logo="token.image" :team="token.team" :name="token.name"
-            :size="tokenSize" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.demons"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
 
       <el-descriptions-item :label="fabledLabel" span="2">
         <el-row class="content-row">
-          <Token v-for="token in store.fabled" :key="token.id" :logo="token.image" :team="token.team" :name="token.name"
-            :size="tokenSize" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.fabled"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
 
       <el-descriptions-item :label="firstNightOrderLabel" span="2">
         <el-row class="content-row order">
-          <Token v-for="token in store.firstNightOrders" :key="token.id" :logo="token.image" :team="token.team"
-            :name="token.name" :size="tokenSize / 2" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.firstNightOrders"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize / 2"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
 
       <el-descriptions-item :label="otherNightOrderLabel" span="2">
         <el-row class="content-row order">
-          <Token v-for="token in store.otherNightOrders" :key="token.id" :logo="token.image" :team="token.team"
-            :name="token.name" :size="tokenSize / 2" :isPreviewReminder="true" />
+          <Token
+            v-for="token in store.otherNightOrders"
+            :key="token.id"
+            :logo="token.image"
+            :team="token.team"
+            :name="token.name"
+            :size="tokenSize / 2"
+            :isPreviewReminder="true"
+          />
         </el-row>
       </el-descriptions-item>
     </el-descriptions>

@@ -62,11 +62,21 @@ export const useScriptStore = defineStore('scriptStore', {
         }
       })
 
-      let townsfolks = characters.filter((item) => item.team.toLowerCase() === Townsfolk.toLowerCase()) as Character[]
-      let outsiders = characters.filter((item) => item.team.toLowerCase() === Outsider.toLowerCase()) as Character[]
-      let minions = characters.filter((item) => item.team.toLowerCase() === Minion.toLowerCase()) as Character[]
-      let demons = characters.filter((item) => item.team.toLowerCase() === Demon.toLowerCase()) as Character[]
-      let fables = characters.filter((item) => item.team.toLowerCase() === Fabled.toLowerCase()) as Character[]
+      let townsfolks = characters.filter(
+        (item) => item.team.toLowerCase() === Townsfolk.toLowerCase()
+      ) as Character[]
+      let outsiders = characters.filter(
+        (item) => item.team.toLowerCase() === Outsider.toLowerCase()
+      ) as Character[]
+      let minions = characters.filter(
+        (item) => item.team.toLowerCase() === Minion.toLowerCase()
+      ) as Character[]
+      let demons = characters.filter(
+        (item) => item.team.toLowerCase() === Demon.toLowerCase()
+      ) as Character[]
+      let fables = characters.filter(
+        (item) => item.team.toLowerCase() === Fabled.toLowerCase()
+      ) as Character[]
 
       let firstNightCharacters = characters
         .filter((item) => item.hasOwnProperty('firstNight') && item.firstNight !== 0)
