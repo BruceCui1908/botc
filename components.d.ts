@@ -9,13 +9,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CharacterSelector: typeof import('./src/components/CharacterSelector.vue')['default']
-    CharacterToken: typeof import('./src/components/CharacterToken.vue')['default']
     DemonInfo: typeof import('./src/components/DemonInfo.vue')['default']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCard: typeof import('element-plus/es')['ElCard']
-    ElCarousel: typeof import('element-plus/es')['ElCarousel']
-    ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
     ElCollapse: typeof import('element-plus/es')['ElCollapse']
     ElCollapseItem: typeof import('element-plus/es')['ElCollapseItem']
     ElDescriptions: typeof import('element-plus/es')['ElDescriptions']
