@@ -73,6 +73,24 @@
         </el-tag>
       </el-row>
 
+      <el-divider content-position="left">全局标记</el-divider>
+      <el-row
+        :style="rowStyleObj"
+        v-for="(reminder, index) in scriptStore.globalReminders"
+        :key="index"
+      >
+        <el-tag
+          v-for="(item, index) in reminder.text"
+          @click="selectReminder(reminder, item)"
+          :key="index"
+          type="danger"
+          effect="dark"
+          round
+        >
+          {{ reminder.name }}({{ item }})
+        </el-tag>
+      </el-row>
+
       <el-divider content-position="left">阵营</el-divider>
       <el-row :style="customTagRowStyleObj">
         <el-tag v-for="(item, index) in alignmentList" @click="selectAlignment(item)" :key="index">
@@ -118,10 +136,13 @@ import { nextTick, ref, computed, watch } from 'vue'
 import type { InputInstance } from 'element-plus'
 import { usePlayerStore } from '@/stores/player'
 import { useSettingStore } from '@/stores/setting'
+import { useScriptStore } from '@/stores/script'
 import type { Reminder } from '@/types/reminder'
 
 const playerStore = usePlayerStore()
 const settingStore = useSettingStore()
+const scriptStore = useScriptStore()
+
 const showDialog = ref<boolean>(false)
 const dynamicTags = ref<string[]>([])
 const inputValue = ref('')

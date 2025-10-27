@@ -23,7 +23,8 @@ export const useScriptStore = defineStore('scriptStore', {
     isGameOn: false,
     firstNightOrders: [],
     otherNightOrders: [],
-    reminders: []
+    reminders: [],
+    globalReminders: []
   }),
 
   actions: {
@@ -49,18 +50,36 @@ export const useScriptStore = defineStore('scriptStore', {
           item.isGood = false
         }
 
-        const combinedReminders = (item.reminders ?? []).concat(item.remindersGlobal ?? [])
-        if (combinedReminders.length > 0) {
+        const normalReminders = item.reminders ?? []
+        if (normalReminders.length > 0) {
           let reminder: Reminder = {
             logo: item.image,
-            text: combinedReminders,
+            text: normalReminders,
             name: item.name,
             isGood: item.isGood!,
             team: item.team
           }
           this.reminders.push(reminder)
+          if (item.team === Fabled) {
+            this.globalReminders.push(reminder)
+          }
+        }
+
+        const globalReminders = item.remindersGlobal ?? []
+        if (globalReminders.length > 0) {
+          let reminder: Reminder = {
+            logo: item.image,
+            text: globalReminders,
+            name: item.name,
+            isGood: item.isGood!,
+            team: item.team
+          }
+          this.globalReminders.push(reminder)
         }
       })
+
+      console.log('reminders = ', this.reminders)
+      console.log('global reminders = ', this.globalReminders)
 
       let townsfolks = characters.filter(
         (item) => item.team.toLowerCase() === Townsfolk.toLowerCase()

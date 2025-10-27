@@ -37,4 +37,5 @@ export interface ScriptState {
   firstNightOrders: Character[]
   otherNightOrders: Character[]
   reminders: Reminder[]
+  globalReminders: Reminder[]
 }

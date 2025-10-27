@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, nextTick } from 'vue'
+import { ref, watch, nextTick, onMounted } from 'vue'
 import Player from './Player.vue'
 import Timeline from './Timeline.vue'
 import NightOrder from './NightOrder.vue'
@@ -129,6 +129,10 @@ const playerRefs = ref([])
 const showInfoPanel = ref<boolean>(false)
 const showDemonInfo = ref<boolean>(false)
 const showMinionInfo = ref<boolean>(false)
+
+onMounted(() => {
+  settingStore.showTooltipReminder = true
+})
 
 // @ts-ignore
 const setPlayerRef = (el, index) => {
