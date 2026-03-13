@@ -59,20 +59,6 @@
         </el-row>
       </el-descriptions-item>
 
-      <el-descriptions-item :label="fabledLabel" span="2">
-        <el-row class="content-row">
-          <Token
-            v-for="token in store.fabled"
-            :key="token.id"
-            :logo="token.image"
-            :team="token.team"
-            :name="token.name"
-            :size="tokenSize"
-            :isPreviewReminder="true"
-          />
-        </el-row>
-      </el-descriptions-item>
-
       <el-descriptions-item :label="firstNightOrderLabel" span="2">
         <el-row class="content-row order">
           <Token
@@ -133,10 +119,6 @@ const minionLabel = computed(() => {
 
 const demonLabel = computed(() => {
   return '恶魔 ' + store.demons.length + '个'
-})
-
-const fabledLabel = computed(() => {
-  return '传奇角色 ' + store.fabled.length + '个'
 })
 
 const firstNightOrderLabel: string = '首夜顺序'

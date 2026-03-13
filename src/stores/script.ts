@@ -7,8 +7,7 @@ const Townsfolk: string = 'townsfolk'
 const Outsider: string = 'outsider'
 const Minion: string = 'minion'
 const Demon: string = 'demon'
-const Fabled: string = 'fabled'
-const teams: string[] = [Townsfolk, Outsider, Minion, Demon, Fabled]
+const teams: string[] = [Townsfolk, Outsider, Minion, Demon]
 
 export const useScriptStore = defineStore('scriptStore', {
   state: (): ScriptState => ({
@@ -19,7 +18,6 @@ export const useScriptStore = defineStore('scriptStore', {
     outsiders: [],
     minions: [],
     demons: [],
-    fabled: [],
     isGameOn: false,
     firstNightOrders: [],
     otherNightOrders: [],
@@ -60,9 +58,6 @@ export const useScriptStore = defineStore('scriptStore', {
             team: item.team
           }
           this.reminders.push(reminder)
-          if (item.team === Fabled) {
-            this.globalReminders.push(reminder)
-          }
         }
 
         const globalReminders = item.remindersGlobal ?? []
@@ -78,9 +73,6 @@ export const useScriptStore = defineStore('scriptStore', {
         }
       })
 
-      console.log('reminders = ', this.reminders)
-      console.log('global reminders = ', this.globalReminders)
-
       let townsfolks = characters.filter(
         (item) => item.team.toLowerCase() === Townsfolk.toLowerCase()
       ) as Character[]
@@ -92,9 +84,6 @@ export const useScriptStore = defineStore('scriptStore', {
       ) as Character[]
       let demons = characters.filter(
         (item) => item.team.toLowerCase() === Demon.toLowerCase()
-      ) as Character[]
-      let fables = characters.filter(
-        (item) => item.team.toLowerCase() === Fabled.toLowerCase()
       ) as Character[]
 
       let firstNightCharacters = characters
@@ -111,7 +100,6 @@ export const useScriptStore = defineStore('scriptStore', {
       this.outsiders = outsiders
       this.minions = minions
       this.demons = demons
-      this.fabled = fables
       this.firstNightOrders = firstNightCharacters
       this.otherNightOrders = otherNightCharacters
     },
@@ -124,7 +112,6 @@ export const useScriptStore = defineStore('scriptStore', {
       this.outsiders = []
       this.minions = []
       this.demons = []
-      this.fabled = []
       this.isGameOn = false
       this.firstNightOrders = []
       this.otherNightOrders = []

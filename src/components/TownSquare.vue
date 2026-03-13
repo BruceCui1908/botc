@@ -228,16 +228,11 @@ const displayLabel = (label: string) => {
 
 <style lang="scss" scoped>
 .town-container {
-  // display: flex;
-  // flex-wrap: wrap;
-  // align-content: flex-start;
-  // justify-items: center;
   gap: 0.8rem;
   width: 100%;
   height: 60rem;
   position: relative;
   overflow: visible;
-  // background: url("@/assets/background.jpg") center center;
   background-repeat: no-repeat;
   background-position: center;
   background-size: auto;
